@@ -13,6 +13,7 @@
     "method-override": "^2.3.2",
     "mongoose": "^4.0.2",
     "morgan": "~1.5.1",
+    "newrelic": "^1.18.5",
     "request": "^2.55.0"
   },
   "engines": {

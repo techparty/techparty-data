@@ -7,6 +7,10 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
+if ('production' === process.env.NODE_ENV) {
+    require('newrelic');
+}
+
 // config mongoose
 var mongoose = require('./config/mongoose');
 
