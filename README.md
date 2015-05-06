@@ -2,6 +2,16 @@
 
 ## TechParty API
 
+#### Install dependencies
+```js
+  npm install
+```
+
+#### Starting
+```js
+  npm start
+```
+
 #### Routes
 
 - http://localhost:3000/api/participant/
@@ -12,3 +22,7 @@
 ```js
   node seed/participant.js
 ```
+
+#### Technologies
+- [Node.js](https://nodejs.org/)
+- [MongoDB](https://www.mongodb.org/)
