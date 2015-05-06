@@ -30,4 +30,10 @@ app.use(function(req, res, next) {
 
 require('./config/routes')(app);
 
+app.set('port', process.env.PORT || 3000);
+
+app.listen(app.get('port'), function(){
+    console.log(("Express server worker listening on port " + app.get('port')))
+});
+
 module.exports = app;
