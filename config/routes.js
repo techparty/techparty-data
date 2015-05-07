@@ -6,9 +6,11 @@ module.exports = function (app) {
 
     var participant = require('../app/routes/participant');
     var healthcheck = require('../app/routes/healthcheck');
+    var speaker = require('../app/routes/speaker');
 
     app.use('/api/participant', participant);
     app.use('/api/healthcheck', healthcheck);
+    app.use('/api/speaker', speaker);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
