@@ -3,7 +3,7 @@
 'use strict';
 
 var async = require('async');
-var ParticipantModel = require('../models/participant');
+var ParticipantModel = require('../../models/participant');
 
 exports.search = function (req, res, next) {
     var query = new RegExp(req.body.username, 'i');

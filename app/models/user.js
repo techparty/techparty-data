@@ -1,0 +1,61 @@
+/*jslint node: true*/
+
+'use strict';
+
+var crypto = require('crypto');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
+
+var UserSchema = new Schema({
+    username: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    hashed_password: {
+        type: String,
+        required: true
+    },
+    salt: {
+        type: String,
+        required: true
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    lastLogin: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+UserSchema
+    .virtual('userId')
+    .get(function () {
+        return this.id;
+    });
+
+UserSchema
+    .virtual('password')
+    .set(function (password) {
+        this._plain_password = password;
+        this.salt = crypto.randomBytes(32).toString('base64');
+        this.hashed_password = this.encryptPassword(password);
+    })
+    .get(function () { return this._plain_password; });
+
+UserSchema.methods.encryptPassword = function (password) {
+    return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+};
+
+UserSchema.methods.verifyPassword = function (password) {
+    return this.encryptPassword(password) === this.hashed_password;
+};
+
+module.exports = mongoose.model('User', UserSchema);

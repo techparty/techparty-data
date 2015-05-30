@@ -4,12 +4,27 @@
 
 module.exports = function (app) {
 
-    var participant = require('../app/routes/participant');
-    var healthcheck = require('../app/routes/healthcheck');
-    var speaker = require('../app/routes/speaker');
+    // enabling cors
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
 
-    app.use('/api/participant', participant);
+    // routes web
+    var index = require('../app/routes/index');
+    var auth = require('../app/routes/auth');
+
+    app.use('/admin', index)
+    app.use('/auth', auth);
+
+    // routes api
+    var healthcheck = require('../app/routes/api/healthcheck');
+    var participant = require('../app/routes/api/participant');
+    var speaker = require('../app/routes/api/speaker');
+
     app.use('/api/healthcheck', healthcheck);
+    app.use('/api/participant', participant);
     app.use('/api/speaker', speaker);
 
     // catch 404 and forward to error handler

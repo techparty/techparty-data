@@ -4,7 +4,7 @@
 
 var express = require('express');
 var router = express.Router();
-var controller = require('../controllers/speaker');
+var controller = require('../../controllers/api/speaker');
 
 router.post('/search', controller.search);
 
