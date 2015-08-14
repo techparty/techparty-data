@@ -4,7 +4,7 @@
 
 var request = require('request');
 var mongoose = require('../config/mongoose');
-var ParticipantModel = require('../app/models/participant');
+var ParticipantModel = require('../app/models/v1/participant');
 
 request({
     uri: 'http://techparty.faccat.br/data.json',

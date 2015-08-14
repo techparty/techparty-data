@@ -2,7 +2,7 @@
 
 'use strict';
 
-var SpeakerModel = require('../../models/speaker');
+var SpeakerModel = require('../../../models/v1/speaker');
 
 exports.search = function (req, res, next) {
     var query = new RegExp(req.body.username, 'i');

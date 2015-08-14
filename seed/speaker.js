@@ -4,7 +4,7 @@
 
 var request = require('request');
 var mongoose = require('../config/mongoose');
-var SpeakerModel = require('../app/models/speaker');
+var SpeakerModel = require('../app/models/v1/speaker');
 
 var speakers = [];
 

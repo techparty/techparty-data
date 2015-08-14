@@ -5,7 +5,7 @@
 var passport = require('passport');
 var log = require('winston');
 var LocalStrategy = require('passport-local').Strategy;
-var UserModel = require('../app/models/user');
+var UserModel = require('../app/models/v1/user');
 
 passport.serializeUser(function (user, done) {
     done(null, user.id);

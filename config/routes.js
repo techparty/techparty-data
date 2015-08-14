@@ -18,14 +18,14 @@ module.exports = function (app) {
     app.use('/admin', index)
     app.use('/auth', auth);
 
-    // routes api
-    var healthcheck = require('../app/routes/api/healthcheck');
-    var participant = require('../app/routes/api/participant');
-    var speaker = require('../app/routes/api/speaker');
+    // routes api v1
+    var healthcheck = require('../app/routes/api/v1/healthcheck');
+    var participant = require('../app/routes/api/v1/participant');
+    var speaker = require('../app/routes/api/v1/speaker');
 
-    app.use('/api/healthcheck', healthcheck);
-    app.use('/api/participant', participant);
-    app.use('/api/speaker', speaker);
+    app.use('/api/v1/healthcheck', healthcheck);
+    app.use('/api/v1/participant', participant);
+    app.use('/api/v1/speaker', speaker);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

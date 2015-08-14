@@ -5,7 +5,7 @@
 var request = require('request');
 var mongoose = require('../config/mongoose');
 var async = require('async');
-var UserModel = require('../app/models/user');
+var UserModel = require('../app/models/v1/user');
 
 var users = []
 
