@@ -2,35 +2,44 @@ doctype html
 html(lang='en')
 	head
 		meta(charset='UTF-8')
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
-		title Document
+		- var titleTech = 'TechParty'
+		- title = title ? titleTech + ' - ' + title : titleTech
+		title=title
 
-		link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel="stylesheet")
-
-		link(href='//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.0.1/metisMenu.min.css' rel="stylesheet")
-
-		link(href='/css/vendor/sb-admin-2.css' rel="stylesheet")
-
-		link(href='//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css' rel="stylesheet")
-
-		link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel="stylesheet")
+		link(rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.indigo-pink.min.css")
+		script(src="https://storage.googleapis.com/code.getmdl.io/1.0.2/material.min.js")
+		link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
 
 		block head
 	body
+		.mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
+			header.mdl-layout__header
+				.mdl-layout__header-row
+
+					.mdl-layout-spacer
+					
+					button#menu-lower-right.mdl-button.mdl-js-button.mdl-button--icon
+						i.material-icons more_vert
+
+					ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='menu-lower-right')
+						li.mdl-menu__item
+							a(href='#') Logout
+
+			.mdl-layout__drawer
+				span.mdl-layout-title=titleTech
+
+				nav.mdl-navigation
+					a.mdl-navigation__link(href='#') Link
+					a.mdl-navigation__link(href='#') Link
+					a.mdl-navigation__link(href='#') Link
+					a.mdl-navigation__link(href='#') Link
+
+			main.mdl-layout__content
+				.page-content
+					block content
+
 		
-		#wrapper
-			block content
-
-		script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
-
-		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
-
-		script(src='//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.0.1/metisMenu.min.js')
-
-		script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js')
-
-		srcipt(src='//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js')
-
-		script(src='/js/vendor/sb-admin-2.js')
 
 		block defer
