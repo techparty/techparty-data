@@ -7,7 +7,7 @@ var mongoose = require('../config/mongoose');
 var ParticipantModel = require('../app/models/v1/participant');
 
 request({
-    uri: 'http://techparty.faccat.br/data.json',
+    uri: 'http://techparty.faccat.br/participant-2015.json',
     method: 'GET'
 }, function (err, response, body) {
     if (err) throw err;

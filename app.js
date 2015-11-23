@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var helmet = require('helmet');
 
 if ('production' === process.env.NODE_ENV) {
     require('newrelic');
@@ -27,6 +28,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'jade');
 
+app.disable('x-powered-by');
+app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -44,7 +47,7 @@ app.use(session({
     resave: false
 }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app/public')));
 
 app.use(passport.initialize());
 app.use(passport.session());

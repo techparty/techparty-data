@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3
+			|Speakers
+			|&nbsp
+			small
+				a(href="/speaker/new") New
+
+
+	section
+		table.table.table-striped.table-delete
+			thead
+				tr
+					th Name
+					th Email
+					th Talk
+					th Date
+					th Actions
+			tbody
+				each speaker in speakers
+					tr
+						td #{speaker.name}
+						td #{speaker.email}
+						td #{speaker.talk}
+						td #{speaker.date}
+						td
+							- var uri = '/speaker/' + speaker.id
+							a(href="#{uri}")
+								span.glyphicon.glyphicon-edit(aria-hidden="true")
+							a.delete(href="#{uri}")
+								span.glyphicon.glyphicon-trash(aria-hidden="true")

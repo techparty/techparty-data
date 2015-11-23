@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3 Speakers
+
+	section
+		form(role='form' method='put' action="/speaker/#{speaker.id}")
+			.form-group
+				label(for="name") Name
+				input.form-control(type="text" id="name" name="name" required value="#{speaker.name}")
+
+			.form-group
+				label(for="email") Email
+				input.form-control(type="email" id="email" name="email" required value="#{speaker.email}")
+
+			.form-group
+				label(for="talk") Talk
+				input.form-control(type="text" id="talk" name="talk" required value="#{speaker.talk}")
+
+			.form-group
+				label(for="date") Date
+				input.form-control(type="text" id="date" name="date" required placeholder="dd/MM/yyyy" value="#{speaker.date}")
+
+			.form-group
+				label(for="minutes") Minutes
+				input.form-control(type="number" id="minutes" name="minutes" placeholder="50" value="#{speaker.minutes}")
+
+			button.btn.btn-primary(type="submit") Update

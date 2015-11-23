@@ -4,10 +4,15 @@
 
 var passport = require('passport');
 
-exports.renderSign = function (req, res, next) {
-    return res.render('auth/sign');
+exports.renderSignIn = function (req, res) {
+    return res.render('auth/signin');
 }
 
-exports.sign = function (req, res, next) {
-    return res.redirect('/admin');
+exports.signIn = function (req, res) {
+    return res.redirect('/');
+}
+
+exports.signOut = function (req, res) {
+    req.logout();
+    return res.redirect('/auth/signin');
 }

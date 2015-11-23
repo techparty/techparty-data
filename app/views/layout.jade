@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='UTF-8')
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		- var titleTech = 'TechParty'
+		- title = title ? titleTech + ' - ' + title : titleTech
+		title=title
+	
+		link(rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
+		link(ref="stylesheet" href="/css/style.css")
+
+		block head
+	body
+		include includes/navbar
+
+		main.container
+			block content
+
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+		script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
+		script(src="/js/main.js")
+
+		block defer

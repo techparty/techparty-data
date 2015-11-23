@@ -13,6 +13,7 @@
     "debug": "~2.1.1",
     "express": "~4.12.2",
     "express-session": "^1.11.2",
+    "helmet": "^0.14.0",
     "jade": "^1.10.0",
     "method-override": "^2.3.2",
     "mongoose": "^4.0.2",

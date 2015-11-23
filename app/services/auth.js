@@ -5,10 +5,11 @@
 var passport = require('passport');
 
 exports.isAuthenticated = function (req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()) {
         return next();
+    }
 
     passport.authenticate('local', {
-        failureRedirect: '/auth/sign',
+        failureRedirect: '/auth/signin',
     })(req, res, next);
 };
