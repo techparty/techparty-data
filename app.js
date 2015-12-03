@@ -27,6 +27,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'jade');
+app.locals.moment = require('moment');
 
 app.disable('x-powered-by');
 app.use(helmet());
@@ -56,8 +57,10 @@ require('./config/routes')(app);
 
 app.set('port', process.env.PORT || 3000);
 
-app.listen(app.get('port'), function(){
+var server = app.listen(app.get('port'), function () {
     console.log(("Express server worker listening on port " + app.get('port')))
 });
+
+require('./config/io')(server);
 
 module.exports = app;

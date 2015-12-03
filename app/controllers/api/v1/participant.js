@@ -4,6 +4,7 @@
 
 var async = require('async');
 var ParticipantModel = require('../../../models/v1/participant');
+var moment = require('moment');
 
 exports.search = function (req, res, next) {
     var query = new RegExp(req.body.username, 'i');
@@ -57,3 +58,24 @@ exports.get = function (req, res, next) {
         return res.status(200).json(participant)
     })
 }
+
+exports.create = function (req, res) {
+    var participant = new ParticipantModel(req.body);
+    var days = [
+        { name: 1 },
+        { name: 2 },
+        { name: 3 },
+        { name: 4 },
+        { name: 5 },
+    ]
+    participant.year = moment().get('year');
+    participant.days = days;
+
+    participant.save(function (err) {
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        return res.status(200).end();
+    });
+};

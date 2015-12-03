@@ -5,6 +5,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var DaySchema = new Schema({
+    name : {
+        type: Number,
+        required: true
+    },
+    present: {
+        type: Boolean,
+        default: false
+    }
+})
+
 var Participant = new Schema({
     name: {
         type: String,
@@ -19,6 +30,7 @@ var Participant = new Schema({
         type: Number,
         required: true
     },
+    days: [DaySchema],
     created_at: {
         type: Date,
         default: Date.now

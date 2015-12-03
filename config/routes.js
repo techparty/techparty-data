@@ -20,10 +20,12 @@ module.exports = function (app) {
     var index = require('../app/routes/index');
     var auth = require('../app/routes/auth');
     var speaker = require('../app/routes/speaker');
+    var participant = require('../app/routes/participant');
 
     app.use('/', index)
     app.use('/auth', auth);
     app.use('/speaker', speaker);
+    app.use('/participant', participant);
 
     // routes api v1
     var healthcheck = require('../app/routes/api/v1/healthcheck');

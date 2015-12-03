@@ -1,0 +1,46 @@
+extends ../layout
+
+block head
+	style.
+		.checkbox {
+			margin: 0 5px;
+			display: inline;
+		}
+
+block defer
+	script(src='/socket.io/socket.io.js')
+	script(src='js/participant.js')
+
+block content
+
+	header.page-header
+		h3
+			|Participants
+
+
+	section
+		table.table.table-striped
+			thead
+				tr
+					th Name
+					th Email
+					th Created at
+					th Days
+					th Actions
+			tbody
+				each participant in participants
+					tr
+						td #{participant.name}
+						td #{participant.email}
+						td #{moment(participant.created_at).format('DD/MM/YYYY')}
+						td
+							if !!participant.days && !!participant.days[0]
+								each day in participant.days
+									.checkbox.days
+										label
+											input(type="checkbox" checked=day.present data-day="#{day._id}" data-participant="#{participant.email}")
+											|#{day.name}
+						td
+							form(method='POST' action="/participant/#{participant._id}?_method=DELETE" onsubmit="return main.confirmDelete()")
+								button.btn-link(type="submit")
+									span.glyphicon.glyphicon-trash(aria-hidden="true")

@@ -25,10 +25,10 @@ block content
 						td #{speaker.name}
 						td #{speaker.email}
 						td #{speaker.talk}
-						td #{speaker.date}
+						td #{moment(speaker.date).format('DD/MM/YYYY')}
 						td
 							- var uri = '/speaker/' + speaker.id
-							form(method='POST' action="#{uri}?_method=DELETE")
+							form(method='POST' action="#{uri}?_method=DELETE" onsubmit="return main.confirmDelete();")
 								a(href="#{uri}")
 									span.glyphicon.glyphicon-edit(aria-hidden="true")
 								button.btn-link(type="submit")

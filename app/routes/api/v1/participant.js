@@ -6,6 +6,8 @@ var express = require('express');
 var router = express.Router();
 var controller = require('../../../controllers/api/v1/participant');
 
+router.post('/', controller.create);
+
 router.post('/search', controller.search);
 
 router.post('/get', controller.get);
