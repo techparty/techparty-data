@@ -33,7 +33,7 @@ app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(methodOverride());
+app.use(methodOverride('_method'));
 
 var secret = 'keyboard cat';
 

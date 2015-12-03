@@ -34,7 +34,7 @@ exports.create = function (req, res) {
             return errorService.response(next, err);
         }
 
-        return res.redirect('speaker');
+        return res.redirect('/speaker');
     });
 };
 
@@ -69,13 +69,14 @@ exports.update = function (req, res, next) {
                 return errorService.response(next, err);
             }
 
-            return res.redirect('speaker');
+            return res.redirect('/speaker');
         });
     });
 };
 
 exports.delete = function (req, res, next) {
-    Model.findById(req.params.id, function (err, speaker) {
+    var id = req.params.id;
+    Model.findById(id, function (err, speaker) {
         if (err) {
             return errorService.response(next, err);
         }
@@ -84,12 +85,12 @@ exports.delete = function (req, res, next) {
             return next();
         }
 
-        Model.remove({ _id: req.params.id }, { $set : req.body }, function (err) {
+        Model.remove({ _id: id }, function (err) {
             if (err) {
-                return res.status(500).json({ error : 'Server error' });
+                return errorService.response(next, err);
             }
 
-            return res.status(200).json({ message: 'OK' });
+            return res.redirect('/speaker');
         });
     });
 };

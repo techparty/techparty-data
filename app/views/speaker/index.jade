@@ -11,7 +11,7 @@ block content
 
 
 	section
-		table.table.table-striped.table-delete
+		table.table.table-striped
 			thead
 				tr
 					th Name
@@ -28,7 +28,8 @@ block content
 						td #{speaker.date}
 						td
 							- var uri = '/speaker/' + speaker.id
-							a(href="#{uri}")
-								span.glyphicon.glyphicon-edit(aria-hidden="true")
-							a.delete(href="#{uri}")
-								span.glyphicon.glyphicon-trash(aria-hidden="true")
+							form(method='POST' action="#{uri}?_method=DELETE")
+								a(href="#{uri}")
+									span.glyphicon.glyphicon-edit(aria-hidden="true")
+								button.btn-link(type="submit")
+									span.glyphicon.glyphicon-trash(aria-hidden="true")
