@@ -18,6 +18,10 @@ var Participant = new Schema({
     year: {
         type: Number,
         required: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
     }
 });
 

@@ -20,7 +20,7 @@ var Speaker = new Schema({
         required: true
     },
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     minutes: {
@@ -30,6 +30,10 @@ var Speaker = new Schema({
     year: {
         type: Number,
         required: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
     }
 });
 
