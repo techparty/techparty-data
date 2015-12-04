@@ -14,8 +14,14 @@ block defer
 block content
 
 	header.page-header
-		h3
-			|Participants
+		h3 Participants
+			each y in years
+				|&nbsp
+				if y == year
+					small #{y}
+				else
+					small
+						a(href="/participant/#{y}")=y
 
 
 	section
@@ -24,6 +30,7 @@ block content
 				tr
 					th Name
 					th Email
+					th Year
 					th Created at
 					th Days
 					th Actions
@@ -32,6 +39,7 @@ block content
 					tr
 						td #{participant.name}
 						td #{participant.email}
+						td #{participant.year}
 						td #{moment(participant.created_at).format('DD/MM/YYYY')}
 						td
 							if !!participant.days && !!participant.days[0]
