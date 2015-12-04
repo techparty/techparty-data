@@ -6,7 +6,7 @@
 var mongoose = require('mongoose');
 
 // Build the connection string
-var dbURI = process.env.TECHPARTY_MONGODB || 'mongodb://localhost:27017/techparty-data'
+var dbURI = process.env.TECHPARTY_MONGODB;
 
 if ('development' === process.env.NODE_ENV) {
     mongoose.set('debug', true);
