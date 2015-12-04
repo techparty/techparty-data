@@ -95,6 +95,90 @@ speakers.push({
     year: 2015
 });
 
+speakers.push({
+    name: 'Fernando Porazzi',
+    talk: 'CSS3 Media Queries',
+    date: '03/31/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Cícero Raupp Rolim',
+    talk: 'Do Cabrito ao Bode',
+    date: '03/31/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Paulo Bridi',
+    talk: "Do Cabrito ao Bode",
+    date: '03/31/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Santiago Andreuzza',
+    talk: "Do Cabrito ao Bode",
+    date: '03/31/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Lauro Becker',
+    talk: 'Versatilidade, negócios e nerdices',
+    date: '03/31/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Mauricio Baum Jr.',
+    talk: 'Overview AngularJS + Ruby on Rails',
+    date: '04/01/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Juliano Selli',
+    talk: 'O que é experiência do usuário?',
+    date: '04/02/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Leonardo Dalmina',
+    talk: 'Criando Jogos 2D com Lua + Corona SDK',
+    date: '04/02/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Rafael Kellermann Streit',
+    talk: 'Como começar a desenvolver para iOS',
+    date: '04/03/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Rodrigo Krummenauer',
+    talk: 'The MEAN Stack: MongoDB, ExpressJS, AngularJS and Node.js',
+    date: '04/03/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Giovani Facchini',
+    talk: 'Performance Engineering in a Nutshell',
+    date: '04/04/2014',
+    year: 2014
+});
+
+speakers.push({
+    name: 'Maiko Gabriel Kinzel Engelke',
+    talk: 'Web e a criação de Jogos',
+    date: '04/04/2014',
+    year: 2014
+});
+
 SpeakerModel.create(speakers, function (err) {
     if (err)
         return console.log(err);
