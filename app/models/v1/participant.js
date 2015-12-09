@@ -26,6 +26,10 @@ var Participant = new Schema({
         type: String,
         default: ''
     },
+    cpf: {
+        type: String,
+        default: ''
+    },
     year: {
         type: Number,
         required: true
