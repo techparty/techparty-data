@@ -28,6 +28,13 @@ var Participant = new Schema({
     },
     cpf: {
         type: String,
+        validate: {
+          validator: function(v) {
+            if (!v) { return true; }
+            return /[0-9]{11}/.test(v);
+          },
+          message: '{VALUE} is not a valid'
+        },
         default: ''
     },
     year: {
