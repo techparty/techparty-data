@@ -37,16 +37,16 @@ exports.get = function (req, res, next) {
 }
 
 exports.create = function (req, res) {
-    var participant = new ParticipantModel(req.body);
-    var days = [
-        { name: 1 },
-        { name: 2 },
-        { name: 3 },
-        { name: 4 },
-        { name: 5 },
-    ]
-    participant.year = moment().get('year');
-    participant.days = days;
+    var participant = new ParticipantModel();
+
+    participant.name = req.body.name;
+    participant.email = req.body.email;
+    participant.cpf = req.body.cpf;
+    participant.year = req.body.year || moment().get('year');
+
+    participant.days = [];
+    var days = !req.body.days ? [] : Array.isArray(req.body.days) ? req.body.days : req.body.days.split(',');
+    days.forEach(function (day) { participant.days.push({ name: day }); });
 
     participant.save(function (err) {
         if (err) {
