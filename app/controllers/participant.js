@@ -11,9 +11,9 @@ exports.renderIndex = function (req, res, next) {
     var year = req.params.year || moment().get('year');
     async.parallel({
         years : function (cb) {
-            Model.find({}).distinct('year', function (err, years) {
+            Model.distinct('year', function (err, years) {
                 if (err) { return cb(); }
-                return cb(null, years);
+                return cb(null, years.sort());
             });
         },
         participants : function (cb) {
