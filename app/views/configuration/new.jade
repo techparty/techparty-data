@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3 Settings
+
+	section
+		form(role='form' method='post' action='/configuration')
+			.form-group
+				label(for="name") Name
+				input.form-control(type="text" id="name" name="name" required)
+
+			.form-group
+				label(for="value") Value
+				input.form-control(type="text" id="value" name="value" required)
+
+			button.btn.btn-primary(type="submit") Create

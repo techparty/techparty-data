@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3 Speakers
+
+	section
+		form(role='form' method='POST' action="/configuration/#{configuration._id}?_method=PUT")
+			
+			.form-group
+				label(for="name") Name
+				input.form-control(type="text" id="name" name="name" required value="#{configuration.name}")
+
+			.form-group
+				label(for="value") Value
+				input.form-control(type="text" id="value" name="value" required value="#{configuration.value}")
+
+			button.btn.btn-primary(type="submit") Update

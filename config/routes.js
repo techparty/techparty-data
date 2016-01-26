@@ -21,11 +21,13 @@ module.exports = function (app) {
     var auth = require('../app/routes/auth');
     var speaker = require('../app/routes/speaker');
     var participant = require('../app/routes/participant');
+    var configuration = require('../app/routes/configuration');
 
     app.use('/', index)
     app.use('/auth', auth);
     app.use('/speaker', speaker);
     app.use('/participant', participant);
+    app.use('/configuration', configuration);
 
     // routes api v1
     var healthcheck = require('../app/routes/api/v1/healthcheck');

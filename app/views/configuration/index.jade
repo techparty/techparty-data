@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3
+			|Settings
+			|&nbsp
+			small
+				a(href="/configuration/new") New
+
+
+	section
+		table.table.table-striped
+			thead
+				tr
+					th Name
+					th Value
+					th Date
+					th Actions
+			tbody
+				each configuration in settings
+					tr
+						td #{configuration.name}
+						td #{configuration.value}
+						td #{moment(configuration.date).format('DD/MM/YYYY')}
+						td
+							- var uri = '/configuration/' + configuration._id
+							form(method='POST' action="#{uri}?_method=DELETE" onsubmit="return main.confirmDelete();")
+								a(href="#{uri}")
+									span.glyphicon.glyphicon-edit(aria-hidden="true")
+								button.btn-link(type="submit")
+									span.glyphicon.glyphicon-trash(aria-hidden="true")
