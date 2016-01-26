@@ -17,8 +17,7 @@ var _create = function (data, cb) {
     participant.year = data.year;
 
     participant.days = [];
-    var days = !data.days ? [] : Array.isArray(data.days) ? data.days : data.days.split(',');
-    days.forEach(function (day) { participant.days.push({ name: day }); });
+    data.days.forEach(function (day) { participant.days.push({ name: day }); });
 
     participant.save(function (err) {
         if (err) {
@@ -60,48 +59,44 @@ exports.get = function (req, res, next) {
 
 exports.create = function (req, res) {
     req.body.year = req.body.year || moment().get('year');
-    var param = 'max-year-' + req.body.year;
+    req.body.days = !req.body.days ? [] : Array.isArray(req.body.days) ? req.body.days : req.body.days.split(',');
 
-    ParticipantModel.findOne({ cpf: req.body.cpf, year: req.body.year }, function (err, participant) {
+    ParticipantModel.findOne({ cpf: req.body.cpf, year: req.body.year }, function (err, exist) {
         if (err) {
             return res.status(500).json(err);
         }
-
-        if (participant) {
+        if (exist) {
             return res.status(400).json({ message: 'Existing participant' });
         }
 
-        ConfigurationModel.findOne({ name : param }, function (err, configuration) {
-            if (err) {
-                return res.status(500).json(err);
-            }
-
-            if (!configuration) {
-                return _create(req.body, function (err, participant) {
+        async.eachSeries(req.body.days, function (day, cb) {
+            var param = 'max-year-' + req.body.year + '-day-' + day;
+            ConfigurationModel.findOne({ name : param }, function (err, configuration) {
+                if (err) {
+                    return cb(err)
+                }
+                if (!configuration) {
+                    return cb();
+                }
+                ParticipantModel.count({ year: req.body.year, 'days.name': day }, function (err, count) {
                     if (err) {
-                        return res.status(500).json(err);
+                       return cb(err);
                     }
-
-                    return res.status(200).end();
+                    if (count >= configuration.value) {
+                        return cb('Maximum number of participants reached on day ' + day);
+                    }
+                    cb();
                 });
+            });
+        }, function (err) {
+            if (err) {
+                return res.status(400).json(err);
             }
-
-            ParticipantModel.count({ year: req.body.year }, function (err, count) {
+            _create(req.body, function (err, participant) {
                 if (err) {
                     return res.status(500).json(err);
                 }
-
-                if (count >= configuration.value) {
-                    return res.status(400).json({ message: 'Maximum number of participants reached' });
-                }
-
-                _create(req.body, function (err, participant) {
-                    if (err) {
-                        return res.status(500).json(err);
-                    }
-
-                    return res.status(200).end();
-                });
+                return res.status(200).end();
             });
         });
     });
