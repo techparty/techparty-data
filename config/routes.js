@@ -38,6 +38,11 @@ module.exports = function (app) {
     app.use('/api/v1/participant', participant);
     app.use('/api/v1/speaker', speaker);
 
+    // routes api v2
+    var participant = require('../app/routes/api/v2/participant');
+
+    app.use('/api/v2/participant', participant);
+
 
     // catch 404 and forward to error handler
     app.use(function(error, req, res, next) {
