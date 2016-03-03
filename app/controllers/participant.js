@@ -19,7 +19,7 @@ exports.renderIndex = function (req, res, next) {
         participants : function (cb) {
             Model
                 .find({ year: year })
-                .sort('-year created_at')
+                .sort('-year name')
                 .exec(function (err, participants) {
                     if (err) { return cb(err);}
                     return cb(null, participants);
