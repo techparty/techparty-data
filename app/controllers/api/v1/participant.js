@@ -58,10 +58,10 @@ exports.get = function (req, res, next) {
 }
 
 exports.create = function (req, res) {
-    req.body.year = req.body.year || moment().get('year');
+    req.body.year = Number(req.body.year || moment().get('year'));
     req.body.days = !req.body.days ? [] : Array.isArray(req.body.days) ? req.body.days : req.body.days.split(',');
 
-    ParticipantModel.findOne({ cpf: req.body.cpf, year: req.body.year }, function (err, exist) {
+    ParticipantModel.findOne({ cpf: String(req.body.cpf), year: req.body.year }, function (err, exist) {
         if (err) {
             return res.status(500).json(err);
         }
