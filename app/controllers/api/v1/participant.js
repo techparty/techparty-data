@@ -10,19 +10,23 @@ var ConfigurationModel = require('../../../models/v1/configuration');
 
 var _create = function (data, cb) {
     var participant = new ParticipantModel();
-
     participant.name = data.name;
     participant.email = data.email;
     participant.cpf = data.cpf;
     participant.year = data.year;
-
     participant.days = [];
     data.days.forEach(function (day) { participant.days.push({ name: day }); });
+    participant.save(cb);
+};
 
-    participant.save(function (err) {
-        if (err) return cb(err);
-        return cb(null, participant);
-    });
+var _update = function (data, cb) {
+    var update = {
+        name: data.name,
+        cpf: data.cpf,
+        days: []
+    };
+    data.days.forEach(function (day) { update.days.push({ name: day }); });
+    ParticipantModel.update({ email: data.email, year: data.year }, { $set: update }, cb);
 };
 
 exports.search = function (req, res, next) {
@@ -56,9 +60,8 @@ exports.create = function (req, res) {
     ParticipantModel.findOne({ email: req.body.email, year: req.body.year }, function (err, exist) {
         if (err) return res.status(500).json(err);
 
-        if (exist) return res.status(400).json({ message: 'Existing participant' });
-
-        async.eachSeries(req.body.days, function (day, cb) {
+        async.each(req.body.days, function (day, cb) {
+            if (!!exist && !!exist.days.filter(function (d) { return Number(d.name) === Number(day) })[0]) return cb();
             var param = 'max-year-' + req.body.year + '-day-' + day;
             ConfigurationModel.findOne({ name : param }, function (err, configuration) {
                 if (err) return cb(err);
@@ -76,10 +79,13 @@ exports.create = function (req, res) {
         }, function (err) {
             if (err) return res.status(400).json(err);
 
-            _create(req.body, function (err, participant) {
+            var _response = function (err) {
                 if (err) return res.status(500).json(err);
                 return res.status(200).end();
-            });
+            };
+
+            if (exist) return _update(req.body, _response);
+            return _create(req.body, _response);
         });
     });
 };
