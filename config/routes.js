@@ -11,6 +11,9 @@ module.exports = function (app) {
 
         // is logged
         res.locals.isLogged = req.isAuthenticated();
+
+        // get user
+        res.locals.user = req.user;
         next();
     });
 

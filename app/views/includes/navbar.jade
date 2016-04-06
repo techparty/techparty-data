@@ -20,7 +20,8 @@ nav.navbar.navbar-default
 			ul.nav.navbar-nav.navbar-right
 				if isLogged
 					li
-						a(href='/auth/signout') Log out
+						a(href='/auth/signout' title="Log out") #{user.name} 
+							span.glyphicon.glyphicon-log-out
 				else
 					li
 						a(href='/auth/signin') Log in
