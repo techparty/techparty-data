@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 // Build the connection string
 var dbURI = process.env.TECHPARTY_MONGODB;
 
-if ('development' === process.env.NODE_ENV) {
+if (process.env.NODE_ENV !== 'production') {
     mongoose.set('debug', true);
 }
 

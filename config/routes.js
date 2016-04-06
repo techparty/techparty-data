@@ -4,14 +4,12 @@
 
 module.exports = function (app) {
 
-    // enabling cors
-    app.use(function(req, res, next) {
+    app.use(function (req, res, next) {
+        // enabling cors
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
-    });
 
-    app.use(function (req, res, next) {
+        // is logged
         res.locals.isLogged = req.isAuthenticated();
         next();
     });
@@ -54,7 +52,7 @@ module.exports = function (app) {
         next(err);
     });
 
-    
+
     // error handlers
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);

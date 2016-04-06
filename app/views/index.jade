@@ -1,4 +1,29 @@
 extends layout
 
+block head
+	link(rel='stylesheet' href='https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.css')
+
+block defer
+	script(src='https://d3js.org/d3.v3.min.js')
+	script(src='https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.min.js')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js')
+	script(src='/js/index.js')
+
 block content
-	h2 test
+	h2 Dashboard
+	
+	.row
+		h4 Yearly participants
+		svg#yearly-participants
+	
+	.row
+		h4 Daily participants
+		svg#daily-participants
+
+	.row
+		h4 Daily participants present
+		svg#daily-participants-present
+	
+	.row
+		h4 Daily participants absent
+		svg#daily-participants-absent
