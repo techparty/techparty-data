@@ -10,24 +10,27 @@ block defer
 	script(src='/js/index.js')
 
 block content
-	h2 Dashboard
+	.row
+		h2 Yearly chart
+		.col-md-6
+			h5 registrations
+			svg#yearly-registrations
+		
+		.col-md-6
+			h5 participants
+			svg#yearly-participants
 	
 	.row
-		h4 Yearly registrations
-		svg#yearly-registrations
-	
-	.row
-		h4 Yearly participants
-		svg#yearly-participants
-	
-	.row
-		h4 Daily participants
-		svg#daily-participants
+		h2 Daily chart
+		
+		.col-md-12
+			h5 participants
+			svg#daily-participants
 
-	.row
-		h4 Daily participants present
-		svg#daily-participants-present
-	
-	.row
-		h4 Daily participants absent
-		svg#daily-participants-absent
+		.col-md-12
+			h5 participants present
+			svg#daily-participants-present
+		
+		.col-md-12
+			h5 participants absent
+			svg#daily-participants-absent

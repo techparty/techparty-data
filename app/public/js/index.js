@@ -74,7 +74,7 @@
         var _yearlyRegistrations = function () {
             $.get('/analytics/participant/yearly/registration', function (data) {
                 nv.addGraph(function () {
-                    var chart = nv.models.discreteBarChart().options({
+                    var chart = nv.models.multiBarChart().options({
                         staggerLabels: true,
                         showValues: true,
                         transitionDuration: 350
@@ -86,12 +86,7 @@
                     chart.y(function(d) { return d.value });
 
                     d3.select('#yearly-registrations')
-                        .datum([
-                            {
-                                key: 'yearly-registrations',
-                                values: data
-                            }
-                        ])
+                        .datum(data)
                         .call(chart);
 
                     nv.utils.windowResize(chart.update);
