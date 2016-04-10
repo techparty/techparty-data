@@ -4,8 +4,12 @@
 
     var Index = (function () {
 
-        var _getMultiBarChart = function (url, select) {
-            $.get(url, function (data) {
+        var _formatLabelDaily = function (data) {
+            return moment().day(data.label).format('dddd');
+        };
+
+        var _dailyParticipants = function () {
+            $.get('/analytics/participant/daily', function (data) {
                 nv.addGraph(function () {
                     var chart = nv.models.multiBarChart().options({
                         staggerLabels: true,
@@ -15,10 +19,10 @@
 
                     chart.tooltip.enabled(true);
 
-                    chart.x(function(d) { return moment().day(d.label).format('dddd') });
+                    chart.x(_formatLabelDaily);
                     chart.y(function(d) { return d.value });
 
-                    d3.select(select)
+                    d3.select('#daily-participants')
                         .datum(data)
                         .call(chart);
 
@@ -27,18 +31,56 @@
                     return chart;
                 });
             });
-        }
-
-        var _dailyParticipants = function () {
-            _getMultiBarChart('/analytics/participant/daily', '#daily-participants');
         };
 
         var _dailyParticipantsPresent = function () {
-            _getMultiBarChart('/analytics/participant/daily/present', '#daily-participants-present');
+            $.get('/analytics/participant/daily/present', function (data) {
+                nv.addGraph(function () {
+                    var chart = nv.models.multiBarChart().options({
+                        staggerLabels: true,
+                        showValues: true,
+                        transitionDuration: 350
+                    });
+
+                    chart.tooltip.enabled(true);
+
+                    chart.x(_formatLabelDaily);
+                    chart.y(function(d) { return d.value });
+
+                    d3.select('#daily-participants-present')
+                        .datum(data)
+                        .call(chart);
+
+                    nv.utils.windowResize(chart.update);
+
+                    return chart;
+                });
+            });
         };
 
         var _dailyParticipantsAbsent = function () {
-            _getMultiBarChart('/analytics/participant/daily/absent', '#daily-participants-absent');
+            $.get('/analytics/participant/daily/absent', function (data) {
+                nv.addGraph(function () {
+                    var chart = nv.models.multiBarChart().options({
+                        staggerLabels: true,
+                        showValues: true,
+                        transitionDuration: 350
+                    });
+
+                    chart.tooltip.enabled(true);
+
+                    chart.x(_formatLabelDaily);
+                    chart.y(function(d) { return d.value });
+
+                    d3.select('#daily-participants-absent')
+                        .datum(data)
+                        .call(chart);
+
+                    nv.utils.windowResize(chart.update);
+
+                    return chart;
+                });
+            });
         };
 
         var _yearlyParticipants = function () {
