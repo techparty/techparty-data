@@ -4,11 +4,13 @@
 
     var main = (function () {
 
-        var _confirmDelete = function () {
-            return confirm('Are you sure?');
+        var _confirmDelete = function (value) {
+            var message = 'Are you sure?';
+            if (value) message += ' ' + value;
+            return confirm(message);
         };
 
-        return { 
+        return {
 
             confirmDelete : _confirmDelete
 

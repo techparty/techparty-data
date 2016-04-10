@@ -57,6 +57,6 @@ block content
 											input(type="checkbox" checked=day.present data-day="#{day._id}" data-participant="#{participant.email}")
 											|#{day.name}
 						td
-							form(method='POST' action="/participant/#{participant._id}?_method=DELETE" onsubmit="return main.confirmDelete()")
+							form(method='POST' action="/participant/#{participant._id}?_method=DELETE" onsubmit="return main.confirmDelete(#{JSON.stringify(participant.email)})")
 								button.btn-link(type="submit")
 									span.glyphicon.glyphicon-trash(aria-hidden="true")
