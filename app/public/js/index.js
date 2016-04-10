@@ -58,7 +58,37 @@
                     d3.select('#yearly-participants')
                         .datum([
                             {
-                                key: 'asd',
+                                key: 'yearly-participants',
+                                values: data
+                            }
+                        ])
+                        .call(chart);
+
+                    nv.utils.windowResize(chart.update);
+
+                    return chart;
+                });
+            });
+        };
+
+        var _yearlyRegistrations = function () {
+            $.get('/analytics/participant/yearly/registration', function (data) {
+                nv.addGraph(function () {
+                    var chart = nv.models.discreteBarChart().options({
+                        staggerLabels: true,
+                        showValues: true,
+                        transitionDuration: 350
+                    });
+
+                    chart.tooltip.enabled(true);
+
+                    chart.x(function(d) { return d.label });
+                    chart.y(function(d) { return d.value });
+
+                    d3.select('#yearly-registrations')
+                        .datum([
+                            {
+                                key: 'yearly-registrations',
                                 values: data
                             }
                         ])
@@ -74,6 +104,7 @@
         return {
 
             init : function () {
+                _yearlyRegistrations();
                 _yearlyParticipants();
                 _dailyParticipants();
                 _dailyParticipantsPresent();

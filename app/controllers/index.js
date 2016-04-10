@@ -65,7 +65,7 @@ var _getDailyParticipantCount = function (present, callback) {
 exports.yearlyParticipants = function (req, res, next) {
     _getYears(function (err, years) {
         var values = [];
-        async.eachSeries(years, function (year, cb) {
+        async.each(years, function (year, cb) {
             var query = { year: year };
             Model.count(query, function (err, count) {
                 if (err) return cb(err);
@@ -74,7 +74,30 @@ exports.yearlyParticipants = function (req, res, next) {
             });
         }, function (err) {
             if (err) return res.status(500).json(err);
-            return res.status(200).json(values);
+            return res.status(200).json(values.sort(function (a, b) { return a.label > b.label }));
+        });
+    });
+};
+
+exports.yearlyRegistrations = function (req, res, next) {
+    _getYears(function (err, years) {
+        var values = [];
+        async.each(years, function (year, cb) {
+            var query = { year: year };
+            Model.find(query, function (err, participants) {
+                if (err) return cb(err);
+                var count = 0;
+                async.each(participants, function (participant, cbParticipant) {
+                    count += participant.days.length;
+                    cbParticipant();
+                }, function () {
+                    values.push({ label: year, value: count });
+                    cb();
+                });
+            });
+        }, function (err) {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json(values.sort(function (a, b) { return a.label > b.label }));
         });
     });
 };
