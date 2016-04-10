@@ -24,4 +24,17 @@
         });
     });
 
+    $('#search').on('keyup', function (e) {
+        var search = e.target.value.toLowerCase();
+        var $rows = $('tbody tr');
+        $rows.hide();
+        var result = $rows.filter(function(index, tr) {
+            var columns = tr.querySelectorAll('td');
+            for (var i = 0; i <= 2; i++) {
+                if (columns[i].innerHTML.toLowerCase().indexOf(search) !== -1) return true;
+            }
+        });
+        $(result).show();
+    });
+
 })(window, document);

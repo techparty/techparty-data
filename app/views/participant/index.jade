@@ -6,6 +6,9 @@ block head
 			margin: 0 5px;
 			display: inline;
 		}
+		#search {
+			margin: 20px 0;
+		}
 
 block defer
 	script(src='/socket.io/socket.io.js')
@@ -22,12 +25,16 @@ block content
 				else
 					small
 						a(href="/participant/#{y}")=y
+						
+	section
+		input.form-control(id="search" placeholder="Search...")
 
 
 	section
 		table.table.table-striped
 			thead
 				tr
+					th Index
 					th Name
 					th Email
 					th Year
@@ -35,8 +42,9 @@ block content
 					th Days
 					th Actions
 			tbody
-				each participant in participants
+				each participant, index in participants
 					tr
+						td #{index}
 						td #{participant.name}
 						td #{participant.email}
 						td #{participant.year}
