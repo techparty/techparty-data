@@ -12,12 +12,11 @@ module.exports = {
         Model
             .find({})
             .sort('-name')
-            .exec((err, settings) => {
-                if (err) return errorService.response(next, err);
-                
-                return res.render('configuration/index', {
-                    settings: settings
-                });
+            .then(settings => {
+                res.render('configuration/index', { settings: settings });
+            })
+            .catch(err => {
+                errorService.response(next, err)
             });
     },
 
@@ -27,50 +26,66 @@ module.exports = {
 
     create : (req, res) => {
         let configuration = new Model(req.body);
-        configuration.save(err => {
-            if (err) return errorService.response(next, err);
-            return res.redirect('/configuration');
-        });
+        configuration
+            .save()
+            .then(() => {
+                res.redirect('/configuration');
+            })
+            .catch(err => {
+                errorService.response(next, err);
+            });
     },
 
     renderEdit : (req, res, next) => {
-        Model.findById(req.params.id, (err, configuration) => {
-            if (err) return errorService.response(next, err);
-
-            if (!configuration) return next();
-
-            return res.render('configuration/edit', {
-                configuration: configuration
+        Model
+            .findById(req.params.id)
+            .then(configuration => {
+                if (!configuration) return next();
+                return res.render('configuration/edit', { configuration: configuration });
+            })
+            .catch(err => {
+                errorService.response(next, err);
             });
-        });
     },
 
     update : (req, res, next) => {
-        Model.findById(req.params.id, (err, configuration) => {
-            if (err) return errorService.response(next, err);
-
-            if (!configuration) return next();
-
-            delete req.body._id;
-            Model.update({ _id: req.params.id }, { $set : req.body }, err => {
-                if (err) return errorService.response(next, err);
-                return res.redirect('/configuration');
+        Model
+            .findById(req.params.id)
+            .then(configuration => {
+                if (!configuration) return next();
+                delete req.body._id;
+                Model
+                    .update({ _id: req.params.id }, { $set : req.body })
+                    .then(() => {
+                        res.redirect('/configuration');
+                    })
+                    .catch(err => {
+                        errorService.response(next, err);
+                    });
+            })
+            .catch(err => {
+                errorService.response(next, err);
             });
-        });
     },
 
     delete : (req, res, next) => {
         let id = req.params.id;
-        Model.findById(id, (err, configuration) => {
-            if (err) return errorService.response(next, err);
-
-            if (!configuration) return next();
-
-            Model.remove({ _id: id }, err => {
-                if (err) return errorService.response(next, err);
-                return res.redirect('/configuration');
+        Model
+            .findById(id)
+            .then(configuration => {
+                if (!configuration) return next();
+                Model
+                    .remove({ _id: id })
+                    .then(() => {
+                        res.redirect('/configuration');
+                    })
+                    .catch(err => {
+                        errorService.response(next, err);
+                    });
+            })
+            .catch(err => {
+                errorService.response(next, err);
             });
-        });
     }
 
 };
