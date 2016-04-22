@@ -1,11 +1,9 @@
-/*jslint node: true */
-
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var DaySchema = new Schema({
+const DaySchema = new Schema({
     name : {
         type: Number,
         required: true
@@ -16,7 +14,7 @@ var DaySchema = new Schema({
     }
 })
 
-var Participant = new Schema({
+const Participant = new Schema({
     name: {
         type: String,
         required: true,
@@ -29,7 +27,7 @@ var Participant = new Schema({
     cpf: {
         type: String,
         validate: {
-          validator: function(v) {
+          validator: v => {
             if (!v) { return true; }
             return /[0-9]{11}/.test(v);
           },

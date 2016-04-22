@@ -1,12 +1,11 @@
-/*jslint node: true */
-
 'use strict';
 
 // Bring Mongoose into the app
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const log = require('winston');
 
 // Build the connection string
-var dbURI = process.env.TECHPARTY_MONGODB;
+const dbURI = process.env.TECHPARTY_MONGODB;
 
 if (process.env.NODE_ENV !== 'production') {
     mongoose.set('debug', true);
@@ -17,29 +16,29 @@ mongoose.connect(dbURI);
 
 // CONNECTION EVENTS
 // When successfully connected
-mongoose.connection.on('connected', function () {
-  console.log('Mongoose default connection open to ' + dbURI);
+mongoose.connection.on('connected', () => {
+  log.info(`Mongoose default connection open to ${dbURI}`);
 });
 
 // If the connection throws an error
-mongoose.connection.on('error',function (err) {
-  console.log('Mongoose default connection error: ' + err);
+mongoose.connection.on('error', err => {
+  log.error(`Mongoose default connection error: ${err}`);
 });
 
 // When the connection is disconnected
-mongoose.connection.on('disconnected', function () {
-  console.log('Mongoose default connection disconnected');
+mongoose.connection.on('disconnected', () => {
+  log.info('Mongoose default connection disconnected');
 });
 
 // When the connection is open
-mongoose.connection.once('open', function () {
-  console.log('Mongoose default connection is open')
+mongoose.connection.once('open', () => {
+  log.info('Mongoose default connection is open')
 });
 
 // If the Node process ends, close the Mongoose connection
-process.on('SIGINT', function() {
-  mongoose.connection.close(function () {
-    console.log('Mongoose default connection disconnected through app termination');
+process.on('SIGINT', () => {
+  mongoose.connection.close(() => {
+    log.error('Mongoose default connection disconnected through app termination');
     process.exit(0);
   });
 });

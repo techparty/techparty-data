@@ -1,60 +1,58 @@
-/*jslint node: true */
-
 'use strict';
 
-var errorService = require('../services/error');
-var Model = require('../models/v1/participant');
-var moment = require('moment');
-var async = require('async');
+// modules
+const moment = require('moment');
+const async = require('async');
 
-exports.renderIndex = function (req, res, next) {
-    var year = req.params.year || moment().get('year');
-    async.parallel({
-        years : function (cb) {
-            Model.distinct('year', function (err, years) {
-                if (err) { return cb(); }
-                return cb(null, years.sort());
-            });
-        },
-        participants : function (cb) {
-            Model
-                .find({ year: year })
-                .sort('-year name')
-                .exec(function (err, participants) {
-                    if (err) { return cb(err);}
-                    return cb(null, participants);
+// services
+const errorService = require('../services/error');
+
+// models
+const Model = require('../models/v1/participant');
+
+module.exports = {
+
+    renderIndex : (req, res, next) => {
+        let year = req.params.year || moment().get('year');
+        async.parallel({
+            years : cb => {
+                Model.distinct('year', (err, years) => {
+                    if (err) return cb();
+                    return cb(null, years.sort());
                 });
-        }
-    }, function (err, result) {
-        if (err) {
-            return errorService.response(next, err);
-        }
-        
-        return res.render('participant/index', {
-            participants: result.participants,
-            years: result.years,
-            year: year
-        });
-    });
-};
-
-exports.delete = function (req, res, next) {
-    var id = req.params.id;
-    Model.findById(id, function (err, participant) {
-        if (err) {
-            return errorService.response(next, err);
-        }
-
-        if (!participant) {
-            return next();
-        }
-
-        Model.remove({ _id: id }, function (err) {
-            if (err) {
-                return errorService.response(next, err);
+            },
+            participants : cb => {
+                Model
+                    .find({ year: year })
+                    .sort('-year name')
+                    .exec((err, participants) => {
+                        if (err) return cb(err);
+                        return cb(null, participants);
+                    });
             }
-
-            return res.redirect('/participant');
+        }, (err, result) => {
+            if (err) return errorService.response(next, err);
+            
+            return res.render('participant/index', {
+                participants: result.participants,
+                years: result.years,
+                year: year
+            });
         });
-    });
+    },
+
+    delete : (req, res, next) => {
+        let id = req.params.id;
+        Model.findById(id, (err, participant) => {
+            if (err) return errorService.response(next, err);
+
+            if (!participant) return next();
+
+            Model.remove({ _id: id }, err => {
+                if (err) return errorService.response(next, err);
+                return res.redirect('/participant');
+            });
+        });
+    }
+
 };

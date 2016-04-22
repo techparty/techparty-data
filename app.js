@@ -1,28 +1,27 @@
-/*jslint node: true */
-
 'use strict';
 
-var path = require('path');
-var express = require('express');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var helmet = require('helmet');
+const path = require('path');
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const helmet = require('helmet');
+const log = require('winston');
 
 if ('production' === process.env.NODE_ENV) {
     require('newrelic');
 }
 
 // config mongoose
-var mongoose = require('./config/mongoose');
+const mongoose = require('./config/mongoose');
 
 // config passport
-var passport = require('./config/passport');
+const passport = require('./config/passport');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
@@ -36,7 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 
-var secret = 'keyboard cat';
+const secret = 'keyboard cat';
 
 app.use(cookieParser(secret));
 app.use(session({
@@ -57,8 +56,8 @@ require('./config/routes')(app);
 
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function () {
-    console.log(("Express server worker listening on port " + app.get('port')))
+const server = app.listen(app.get('port'), () => {
+    log.info(`Express server worker listening on port ${app.get('port')}`);
 });
 
 require('./config/io')(server);

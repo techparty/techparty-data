@@ -1,13 +1,12 @@
-/*jslint node: true */
-
 'use strict';
 
-var request = require('request');
-var mongoose = require('../config/mongoose');
-var async = require('async');
-var UserModel = require('../app/models/v1/user');
+const request = require('request');
+const async = require('async');
+const log = require('winston');
+const mongoose = require('../config/mongoose');
+const UserModel = require('../app/models/v1/user');
 
-var users = []
+let users = []
 
 users.push({
     name: 'TechParty',
@@ -15,9 +14,7 @@ users.push({
     password: 'pass'
 });
 
-UserModel.create(users, function (err) {
-    if (err)
-        return console.log('ERR: ', err);
-
-    console.log('DONE');
+UserModel.create(users, err => {
+    if (err) return log.error('ERR: ', err);
+    log.info('DONE');
 })

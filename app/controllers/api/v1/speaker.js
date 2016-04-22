@@ -1,35 +1,31 @@
-/*jslint node: true */
-
 'use strict';
 
-var Model = require('../../../models/v1/speaker');
+const Model = require('../../../models/v1/speaker');
 
-exports.search = function (req, res, next) {
-    var query = new RegExp(req.body.username, 'i');
-    var year = req.body.year || new Date().getFullYear();
-    Model
-        .find({ name: { $regex: query }, year: year })
-        .select('name')
-        .lean()
-        .exec(function (err, speakers) {
-            if (err) {
-                return res.status(500).json(err);
-            }
+module.exports = {
 
-            return res.status(200).json(speakers);
-        });
-}
+    search : (req, res, next) => {
+        var query = new RegExp(req.body.username, 'i');
+        var year = req.body.year || new Date().getFullYear();
+        Model
+            .find({ name: { $regex: query }, year: year })
+            .select('name')
+            .lean()
+            .exec(function (err, speakers) {
+                if (err) return res.status(500).json(err);
+                return res.status(200).json(speakers);
+            });
+    },
 
-exports.get = function (req, res, next) {
-    Model
-        .findOne({ _id : req.body.id })
-        .select('-_id')
-        .lean()
-        .exec(function (err, speaker) {
-            if (err) {
-                return res.status(500).json(err);
-            }
+    get : (req, res, next) => {
+        Model
+            .findOne({ _id : req.body.id })
+            .select('-_id')
+            .lean()
+            .exec(function (err, speaker) {
+                if (err) return res.status(500).json(err);
+                return res.status(200).json(speaker)
+            });
+    }
 
-            return res.status(200).json(speaker)
-        });
-}
+};

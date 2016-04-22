@@ -1,11 +1,9 @@
-/*jslint node: true */
-
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var controller = require('../controllers/configuration')
-var auth = require('../services/auth');
+const express = require('express');
+const router = express.Router();
+const controller = require('../controllers/configuration')
+const auth = require('../services/auth');
 
 router.use(auth.isAuthenticated)
 

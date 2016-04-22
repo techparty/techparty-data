@@ -1,11 +1,9 @@
-/*jslint node: true */
-
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var Configuration = new Schema({
+const Configuration = new Schema({
     name: {
         type: String,
         required: true,

@@ -1,14 +1,15 @@
-/*jslint node: true */
-
 'use strict';
 
-var passport = require('passport');
+const passport = require('passport');
 
-exports.isAuthenticated = function (req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
+module.exports = {
+
+    isAuthenticated : (req, res, next) => {
+        if (req.isAuthenticated()) return next();
+
+        passport.authenticate('local', {
+            failureRedirect: '/auth/signin',
+        })(req, res, next);
     }
-    passport.authenticate('local', {
-        failureRedirect: '/auth/signin',
-    })(req, res, next);
+
 };

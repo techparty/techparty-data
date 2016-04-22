@@ -1,12 +1,10 @@
-/*jslint node: true */
-
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var controller = require('../controllers/auth');
-var passport = require('passport');
-var auth = require('../services/auth');
+const express = require('express');
+const router = express.Router();
+const controller = require('../controllers/auth');
+const passport = require('passport');
+const auth = require('../services/auth');
 
 router
     .get('/signin', controller.renderSignIn)

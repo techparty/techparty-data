@@ -1,10 +1,8 @@
-/*jslint node: true */
-
 'use strict';
 
-module.exports = function (app) {
+module.exports = app => {
 
-    app.use(function (req, res, next) {
+    app.use((req, res, next) => {
         // enabling cors
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -18,46 +16,34 @@ module.exports = function (app) {
     });
 
     // routes web
-    var index = require('../app/routes/index');
-    var auth = require('../app/routes/auth');
-    var speaker = require('../app/routes/speaker');
-    var participant = require('../app/routes/participant');
-    var configuration = require('../app/routes/configuration');
-
-    app.use('/', index)
-    app.use('/auth', auth);
-    app.use('/speaker', speaker);
-    app.use('/participant', participant);
-    app.use('/configuration', configuration);
+    app.use('/', require('../app/routes/index'))
+    app.use('/auth', require('../app/routes/auth'));
+    app.use('/speaker', require('../app/routes/speaker'));
+    app.use('/participant', require('../app/routes/participant'));
+    app.use('/configuration', require('../app/routes/configuration'));
 
     // routes api v1
-    var healthcheck = require('../app/routes/api/v1/healthcheck');
-    var participant = require('../app/routes/api/v1/participant');
-    var speaker = require('../app/routes/api/v1/speaker');
-
-    app.use('/api/v1/healthcheck', healthcheck);
-    app.use('/api/v1/participant', participant);
-    app.use('/api/v1/speaker', speaker);
+    app.use('/api/v1/healthcheck', require('../app/routes/api/v1/healthcheck'));
+    app.use('/api/v1/participant', require('../app/routes/api/v1/participant'));
+    app.use('/api/v1/speaker', require('../app/routes/api/v1/speaker'));
 
     // routes api v2
-    var participant = require('../app/routes/api/v2/participant');
-
-    app.use('/api/v2/participant', participant);
+    app.use('/api/v2/participant', require('../app/routes/api/v2/participant'));
 
 
     // catch 404 and forward to error handler
-    app.use(function(error, req, res, next) {
+    app.use((error, req, res, next) => {
         if (error) {
             return next(error);
         }
-        var err = new Error('Not Found');
+        let err = new Error('Not Found');
         err.status = 404;
         next(err);
     });
 
 
     // error handlers
-    app.use(function(err, req, res, next) {
+    app.use((err, req, res, next) => {
         res.status(err.status || 500);
         res.json({
             message: err.message,

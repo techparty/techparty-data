@@ -1,15 +1,13 @@
 'use strict';
 
-module.exports = function (server) {
+module.exports = server => {
 
-    var participant = require('../app/services/participant');
+    const participant = require('../app/services/participant');
 
-    var io = require('socket.io')(server);
+    const io = require('socket.io')(server);
 
-    io.on('connection', function (socket) {
-
+    io.on('connection', socket => {
         participant.socketPresent(socket);
-
     });
 
 };

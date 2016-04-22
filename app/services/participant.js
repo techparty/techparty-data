@@ -1,30 +1,35 @@
 'use strict';
 
-var Model = require('../models/v1/participant');
+// modules
+const log = require('winston');
 
-exports.socketPresent = function (socket) {
+// models
+const Model = require('../models/v1/participant');
 
-    socket.on('present', function (data) {
+module.exports = {
 
-        Model.findOne({ email: data.email }, function (err, participant) {
-            if (err) {
-                return console.error(err);
-            }
+    socketPresent : socket => {
 
-            participant.days.forEach(function (day) {
-                if (day._id == data.day) {
-                    day.present = data.present;
-                }
-            });
+        socket.on('present', data => {
 
-            Model.update({ email: data.email }, { $set: { days: participant.days } }, function (err) {
-                if (err) {
+            Model.findOne({ email: data.email }, (err, participant) => {
+                if (err) return log.error(err);
+
+                participant.days.forEach(day => {
+                    if (day._id == data.day) {
+                        day.present = data.present;
+                    }
+                });
+
+                Model.update({ email: data.email }, { $set: { days: participant.days } }, err => {
+                    if (!err) return socket.broadcast.emit('present', data);
+
+                    log.error(err);
                     return socket.broadcast.emit('present', err);
-                }
-
-                return socket.broadcast.emit('present', data);
+                });
             });
         });
-    });
+
+    }
 
 };

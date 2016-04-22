@@ -1,21 +1,25 @@
-/*jslint node: true */
-
 'use strict';
 
-exports.response = function (next, err) {
-    if (err.name !== 'ValidationError') {
-        console.error('Internal error (500): ', err);
-        var error = new Error('Server error');
-        error.status = 500;
+const log = require('winston');
+
+module.exports = {
+
+    response : (next, err) => {
+        if (err.name !== 'ValidationError') {
+            log.error('Internal error (500): ', err);
+            let error = new Error('Server error');
+            error.status = 500;
+            return next(error);
+        }
+
+        let errors = [];
+        for (let key in err.errors) {
+            errors.push(err.errors[key].message);
+        }
+        log.error('Internal error (400): ', err);
+        let error = new Error(errors.join('<br>'));
+        error.status = 400;
         return next(error);
     }
 
-    var errors = [];
-    for (var key in err.errors) {
-        errors.push(err.errors[key].message);
-    }
-    console.error('Internal error (400): ', err);
-    var error = new Error(errors.join('<br>'));
-    error.status = 400;
-    return next(error);
 };

@@ -1,18 +1,20 @@
-/*jslint node: true */
-
 'use strict';
 
-var passport = require('passport');
+const passport = require('passport');
 
-exports.renderSignIn = function (req, res) {
-    return res.render('auth/signin');
-}
+module.exports = {
 
-exports.signIn = function (req, res) {
-    return res.redirect('/');
-}
+    renderSignIn : (req, res) => {
+        return res.render('auth/signin');
+    },
 
-exports.signOut = function (req, res) {
-    req.logout();
-    return res.redirect('/auth/signin');
-}
+    signIn : (req, res) => {
+        return res.redirect('/');
+    },
+
+    signOut : (req, res) => {
+        req.logout();
+        return res.redirect('/auth/signin');
+    }
+
+};

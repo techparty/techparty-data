@@ -1,12 +1,11 @@
-/*jslint node: true */
-
 'use strict';
 
-var request = require('request');
-var mongoose = require('../config/mongoose');
-var SpeakerModel = require('../app/models/v1/speaker');
+const request = require('request');
+const log = require('winston');
+const mongoose = require('../config/mongoose');
+const SpeakerModel = require('../app/models/v1/speaker');
 
-var speakers = [];
+let speakers = [];
 
 speakers.push({
     name: 'Everton Luís Berz',
@@ -179,9 +178,7 @@ speakers.push({
     year: 2014
 });
 
-SpeakerModel.create(speakers, function (err) {
-    if (err)
-        return console.log(err);
-
-    console.log('POPULATE OK');
+SpeakerModel.create(speakers, err => {
+    if (err) return log.error(err);
+    log.info('POPULATE OK');
 });

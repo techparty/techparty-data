@@ -1,26 +1,25 @@
-/*jslint node: true */
-
 'use strict';
 
-var request = require('request');
-var moment = require('moment');
-var mongoose = require('../config/mongoose');
-var ParticipantModel = require('../app/models/v1/participant');
+const request = require('request');
+const moment = require('moment');
+const log = require('winston');
+const mongoose = require('../config/mongoose');
+const Model = require('../app/models/v1/participant');
 
 request({
     uri: 'http://techparty.faccat.br/participant.json',
     method: 'GET',
     json: true
-}, function (err, response, body) {
+}, (err, response, body) => {
     if (err) throw err;
 
-    var participants = body.participants;
+    let participants = body.participants;
 
-    var years = {};
+    let years = {};
 
-    participants.forEach(function (participant) {
-        var year = participant.year;
-        var name = participant.name;
+    participants.forEach(participant => {
+        let year = participant.year;
+        let name = participant.name;
 
         if (!years[year]) {
             years[year] = {};
@@ -36,7 +35,7 @@ request({
             ];
             years[year][name] = participant;
         } else {
-            for (var i = 0, l = 5; i < l; i++) {
+            for (let i = 0, l = 5; i < l; i++) {
                 if (!years[year][name].days[i].present) {
                     years[year][name].days[i].present = true;
                     break;
@@ -45,10 +44,10 @@ request({
         }
     });
 
-    for (var year in years) {
-        for (var name in years[year]) {
-            ParticipantModel.create(years[year][name], function (err) {
-                if (err) console.log(err);
+    for (let year in years) {
+        for (let name in years[year]) {
+            Model.create(years[year][name], err => {
+                if (err) log.error(err);
             });
         }
     }
