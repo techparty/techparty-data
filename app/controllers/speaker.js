@@ -13,12 +13,11 @@ module.exports = {
             .find({})
             .sort('-year date')
             .select('name email talk date')
-            .exec((err, speakers) => {
-                if (err) return errorService.response(next, err);
-                
-                return res.render('speaker/index', {
-                    speakers: speakers
-                });
+            .then(speakers => {
+                res.render('speaker/index', { speakers: speakers });
+            })
+            .catch(err => {
+                errorService.response(next, err);
             });
     },
 
@@ -29,50 +28,65 @@ module.exports = {
     create : (req, res) => {
         var speaker = new Model(req.body);
         speaker.year = Number(speaker.date.replace(/.*\//, ''));
-        
-        speaker.save(err => {
-            if (err) return errorService.response(next, err);
-            return res.redirect('/speaker');
-        });
+        speaker
+            .save()
+            .then(() => {
+                res.redirect('/speaker');
+            })
+            .catch(err => {
+                errorService.response(next, err);
+            });
     },
 
     renderEdit : (req, res, next) => {
-        Model.findById(req.params.id, (err, speaker) => {
-            if (err) return errorService.response(next, err);
-
-            if (!speaker) return next();
-
-            return res.render('speaker/edit', {
-                speaker: speaker
+        Model
+            .findById(req.params.id)
+            .then(speaker => {
+                if (!speaker) return next();
+                return res.render('speaker/edit', { speaker: speaker });
+            })
+            .catch(err => {
+                errorService.response(next, err);
             });
-        });
     },
 
     update : (req, res, next) => {
-        Model.findById(req.params.id, (err, speaker) => {
-            if (err) return errorService.response(next, err);
-
-            if (!speaker) return next();
-
-            Model.update({ _id: req.params.id }, { $set : req.body }, err => {
-                if (err) return errorService.response(next, err);
-                return res.redirect('/speaker');
+        Model
+            .findById(req.params.id)
+            .then(speaker => {
+                if (!speaker) return next();
+                Model
+                    .update({ _id: req.params.id }, { $set : req.body })
+                    .then(() => {
+                        res.redirect('/speaker');
+                    })
+                    .catch(err => {
+                        errorService.response(next, err);
+                    })
+            })
+            .catch(err => {
+                errorService.response(next, err);
             });
-        });
     },
 
     delete : (req, res, next) => {
         var id = req.params.id;
-        Model.findById(id, (err, speaker) => {
-            if (err) return errorService.response(next, err);
-
-            if (!speaker) return next();
-
-            Model.remove({ _id: id }, err => {
-                if (err) return errorService.response(next, err);
-                return res.redirect('/speaker');
+        Model
+            .findById(id)
+            .then(speaker => {
+                if (!speaker) return next();
+                Model
+                    .remove({ _id: id })
+                    .then(() => {
+                        return res.redirect('/speaker');
+                    })
+                    .catch(err => {
+                        errorService.response(next, err);
+                    });
+            })
+            .catch(err => {
+                errorService.response(next, err);
             });
-        });
     }
 
 };
