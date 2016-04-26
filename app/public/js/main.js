@@ -26,8 +26,7 @@
                     alert('Successfully saved');
                 })
                 .fail(function (err) {
-                    alert('Oops... Please try again.');
-                    console.log(err.responseJSON);
+                    alert(err.responseJSON || 'Oops... Please try again.');
                 });
           });
         };
