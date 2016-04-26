@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3 Participant
+
+	section
+		form.form-submit(role='form' method='post' action='/api/v1/participant')
+			.row
+				.col-md-6
+					.form-group
+						label(for="name") Name
+						input.form-control(type="text" id="name" name="name" required)
+
+					.form-group
+						label(for="email") Email
+						input.form-control(type="email" id="email" name="email" required)
+
+					.form-group
+						label(for="cpf") CPF
+						input.form-control(type="number" id="cpf" name="cpf" required)
+				.col-md-6
+					.form-group
+						label(for="days") Days
+						- var options = [1, 2, 3, 4, 5]
+						select.form-control(id="days" name="days" multiple)
+							each option in options
+								option(value="#{option}")= option
+
+			button.btn.btn-primary(type="submit") Create

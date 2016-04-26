@@ -47,6 +47,10 @@ module.exports = {
         });
     },
 
+    renderNew : (req, res, next) => {
+        res.render('participant/new');
+    },
+
     delete : (req, res, next) => {
         let id = req.params.id;
         Model
