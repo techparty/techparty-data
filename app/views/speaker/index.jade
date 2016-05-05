@@ -25,7 +25,7 @@ block content
 						td #{speaker.name}
 						td #{speaker.email}
 						td #{speaker.talk}
-						td #{moment(speaker.date).format('DD/MM/YYYY')}
+						td #{moment(speaker.date).format('YYYY/MM/DD')}
 						td
 							- var uri = '/speaker/' + speaker.id
 							form(method='POST' action="#{uri}?_method=DELETE" onsubmit="return main.confirmDelete();")

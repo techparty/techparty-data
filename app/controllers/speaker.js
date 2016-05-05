@@ -25,9 +25,9 @@ module.exports = {
         res.render('speaker/new');
     },
 
-    create : (req, res) => {
+    create : (req, res, next) => {
         var speaker = new Model(req.body);
-        speaker.year = Number(speaker.date.replace(/.*\//, ''));
+        speaker.year = Number(req.body.date.replace(/\/.*/, ''));
         speaker
             .save()
             .then(() => {
@@ -55,6 +55,7 @@ module.exports = {
             .findById(req.params.id)
             .then(speaker => {
                 if (!speaker) return next();
+                if (req.body.date) req.body.year = Number(req.body.date.replace(/\/.*/, ''));
                 Model
                     .update({ _id: req.params.id }, { $set : req.body })
                     .then(() => {

@@ -29,6 +29,7 @@ module.exports = app => {
 
     // routes api v2
     app.use('/api/v2/participant', require('../app/routes/api/v2/participant'));
+    app.use('/api/v2/speaker', require('../app/routes/api/v2/speaker'));
 
 
     // catch 404 and forward to error handler
