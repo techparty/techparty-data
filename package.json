@@ -36,5 +36,8 @@
   "bugs": {
     "url": "https://github.com/techparty/techparty-data/issues"
   },
-  "homepage": "https://github.com/techparty/techparty-data"
+  "homepage": "https://github.com/techparty/techparty-data",
+  "devDependencies": {
+    "eslint": "^3.10.1"
+  }
 }
