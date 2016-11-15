@@ -1,0 +1,15 @@
+{
+  "verbose": true,
+  "ignore": [
+    "node_modules",
+    "app/public",
+    "app/views"
+  ],
+  "execMap": {
+    "js": "node ./app.js"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js json"
+}
