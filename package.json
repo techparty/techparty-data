@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./app.js",
+    "dev": "nodemon"
   },
   "dependencies": {
     "async": "^2.1.2",
@@ -20,6 +21,7 @@
     "mongoose": "^4.4.13",
     "morgan": "^1.5.3",
     "newrelic": "^1.27.0",
+    "nodemailer": "^2.6.4",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "request": "^2.72.0",
@@ -27,7 +29,7 @@
     "winston": "^2.3.0"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.9.1"
   },
   "repository": {
     "type": "git",
@@ -36,5 +38,8 @@
   "bugs": {
     "url": "https://github.com/techparty/techparty-data/issues"
   },
-  "homepage": "https://github.com/techparty/techparty-data"
+  "homepage": "https://github.com/techparty/techparty-data",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
 }
