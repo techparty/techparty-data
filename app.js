@@ -10,9 +10,7 @@ const helmet = require('helmet');
 const log = require('winston');
 const env = require('./config/env');
 
-if ('production' === env.node_env) {
-  require('newrelic');
-}
+if ('production' === env.node_env) require('newrelic');
 
 // config mongoose
 const mongoose = require('./config/mongoose');
@@ -53,7 +51,7 @@ app.use(passport.session());
 
 require('./config/routes')(app);
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', env.port);
 
 const server = app.listen(app.get('port'), () => {
   log.info(`Express server worker listening on port ${app.get('port')}`);
