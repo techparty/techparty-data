@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const express = require('express');
 const logger = require('morgan');
@@ -10,9 +8,10 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const helmet = require('helmet');
 const log = require('winston');
+const env = require('./config/env');
 
-if ('production' === process.env.NODE_ENV) {
-    require('newrelic');
+if ('production' === env.node_env) {
+  require('newrelic');
 }
 
 // config mongoose
@@ -39,12 +38,12 @@ const secret = 'keyboard cat';
 
 app.use(cookieParser(secret));
 app.use(session({
-    secret: secret,
-    store: new MongoStore({
-        mongooseConnection: mongoose.connection
-    }),
-    saveUninitialized: true,
-    resave: false
+  secret: secret,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  }),
+  saveUninitialized: true,
+  resave: false
 }));
 
 app.use(express.static(path.join(__dirname, 'app/public')));
@@ -57,7 +56,7 @@ require('./config/routes')(app);
 app.set('port', process.env.PORT || 3000);
 
 const server = app.listen(app.get('port'), () => {
-    log.info(`Express server worker listening on port ${app.get('port')}`);
+  log.info(`Express server worker listening on port ${app.get('port')}`);
 });
 
 require('./config/io')(server);

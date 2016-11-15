@@ -1,20 +1,79 @@
-'use strict';
+const nodemailer = require('nodemailer');
+const env = require('../../config/env');
+const UserModel = require('../models/v1/user');
 
-const passport = require('passport');
+const sendMail = (email_to, reset_secret) => {
+  return new Promise((resolve, reject) => {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: { user: env.email_user, pass: env.email_password }
+    });
+
+    const mailOptions = {
+      from: `${env.email_name} <${env.email_user}>`,
+      to: email_to,
+      subject: 'TechParty Faccat - Reset password',
+      html: `
+        <p>Your secret key to reset password:</p>
+        <b>${reset_secret}</b>
+      `,
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) return reject(error);
+      resolve();
+    });
+  });
+}
+
+const crypto = require('crypto');
 
 module.exports = {
 
-    renderSignIn : (req, res) => {
-        return res.render('auth/signin');
-    },
+  renderSignIn: (req, res) => {
+    res.render('auth/signin');
+  },
 
-    signIn : (req, res) => {
-        return res.redirect('/');
-    },
+  signIn: (req, res) => {
+    res.redirect('/');
+  },
 
-    signOut : (req, res) => {
-        req.logout();
-        return res.redirect('/auth/signin');
-    }
+  signOut: (req, res) => {
+    req.logout();
+    res.redirect('/auth/signin');
+  },
+
+  renderReset: (req, res, next) => {
+    const { email } = req.query;
+    if (!email) return next(`Email ${email} invalid`);
+
+    const secret = crypto.randomBytes(32).toString('base64');
+    req.session.reset_secret = { email, secret }
+    sendMail(email, secret)
+      .then(() => res.render('auth/reset'))
+      .catch(next)
+  },
+
+  reset: (req, res, next) => {
+    const { reset_secret } = req.session;
+    if (reset_secret.secret !== req.body.reset_secret) return next('Reset secret invalid');
+
+    const { email } = req.body;
+    if (reset_secret.email !== email) return next(`Email ${email} invalid`);
+
+    UserModel
+      .findOne({ username: email })
+      .then(user => {
+        if (!user) return next('User not found');
+        user.password = req.body.password;
+        user
+          .save()
+          .then(() => res.redirect('/'))
+          .catch(next);
+      })
+      .catch(next);
+  },
 
 };
