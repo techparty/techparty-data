@@ -5,9 +5,7 @@ const UserModel = require('../models/v1/user');
 const sendMail = (email_to, reset_secret) => {
   return new Promise((resolve, reject) => {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      service: 'gmail',
       auth: { user: env.email_user, pass: env.email_password }
     });
 
