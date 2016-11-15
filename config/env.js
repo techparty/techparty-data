@@ -2,7 +2,7 @@ let env = name => process.env[name];
 
 module.exports = {
 
-  mongodb: env('TECHPARTY_MONGODB_PROD'),
+  mongodb: env('TECHPARTY_MONGODB'),
 
   node_env: env('NODE_ENV'),
 
