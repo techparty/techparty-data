@@ -1,10 +1,10 @@
 const express = require('express');
 const controller = require('../controllers/index')
-const auth = require('../services/auth');
+const AuthService = require('../services/auth');
 
 const router = express.Router();
 
-router.use(auth.isAuthenticated);
+router.use(AuthService.isAuthenticated);
 
 router
   .route('/')
