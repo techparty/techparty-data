@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const controller = require('../controllers/auth');
 const passport = require('passport');
-const auth = require('../services/auth');
+const AuthService = require('../services/auth');
+
+const router = express.Router();
 
 router
   .route('/signin')
@@ -11,7 +12,7 @@ router
 
 router
   .route('/signout')
-  .get(auth.isAuthenticated, controller.signOut)
+  .get(AuthService.isAuthenticated, controller.signOut)
 
 router
   .route('/reset')

@@ -1,4 +1,4 @@
-let env = name => process.env[name];
+const env = name => process.env[name];
 
 module.exports = {
 

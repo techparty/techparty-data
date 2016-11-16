@@ -1,16 +1,25 @@
-'use strict';
-
 const express = require('express');
-const router = express.Router();
 const controller = require('../controllers/participant')
-const auth = require('../services/auth');
+const AuthService = require('../services/auth');
 
-router.get('/', auth.isAuthenticated, controller.renderIndex);
+const router = express.Router();
 
-router.get('/new', auth.isAuthenticated, controller.renderNew);
+router.use(AuthService.isAuthenticated);
 
-router.get('/:year', auth.isAuthenticated, controller.renderIndex);
+router
+  .route('/')
+  .get(controller.renderIndex);
 
-router.delete('/:id', auth.isAuthenticated, controller.delete);
+router
+  .route('/new')
+  .get(controller.renderNew);
+
+router
+  .route('/:year')
+  .get(controller.renderIndex);
+
+router
+  .route('/:id')
+  .delete(controller.delete);
 
 module.exports = router;

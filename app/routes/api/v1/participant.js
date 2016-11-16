@@ -1,13 +1,18 @@
-'use strict';
-
 const express = require('express');
-const router = express.Router();
 const controller = require('../../../controllers/api/v1/participant');
 
-router.post('/', controller.create);
+const router = express.Router();
 
-router.post('/search', controller.search);
+router
+  .route('/')
+  .post(controller.create);
 
-router.post('/get', controller.get);
+router
+  .route('/search')
+  .post(controller.search);
+
+router
+  .route('/get')
+  .post(controller.get);
 
 module.exports = router;

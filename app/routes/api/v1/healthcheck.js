@@ -1,10 +1,10 @@
-'use strict';
-
 const express = require('express');
+const controller = require('../../../controllers/api/v1/healthcheck');
+
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    return res.status(200).json({ status : 'OK' })
-});
+router
+  .route('/')
+  .get(controller.index);
 
 module.exports = router;

@@ -9,7 +9,7 @@ const users = []
 users.push({
   name: 'TechParty',
   username: 'myemail@email.com',
-  password: 'pass'
+  password: 'pass',
 });
 
 UserModel.create(users, err => {

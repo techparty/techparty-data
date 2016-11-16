@@ -1,17 +1,13 @@
-'use strict';
-
 const ParticipantModel = require('../../../models/participant');
 
 module.exports = {
 
-    get : (req, res, next) => {
-        ParticipantModel
-            .findOne({ email : req.body.email, cpf: req.body.cpf })
-            .select('-_id')
-            .exec((err, participant) => {
-                if (err) return res.status(500).json(err);
-                return res.status(200).json(participant)
-            });
-    }
+  get: (req, res) => {
+    ParticipantModel
+      .findOne({ email : req.body.email, cpf: req.body.cpf })
+      .select('-_id')
+      .then(participant => res.status(200).json(participant))
+      .catch(err => res.status(500).json(err));
+  },
 
 };

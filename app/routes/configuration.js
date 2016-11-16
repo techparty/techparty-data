@@ -1,25 +1,24 @@
-'use strict';
-
 const express = require('express');
-const router = express.Router();
 const controller = require('../controllers/configuration')
-const auth = require('../services/auth');
+const AuthService = require('../services/auth');
 
-router.use(auth.isAuthenticated)
+const router = express.Router();
 
-router
-    .route('/')
-    .get(controller.renderIndex)
-    .post(controller.create);
+router.use(AuthService.isAuthenticated);
 
 router
-    .route('/new')
-    .get(controller.renderNew);
+  .route('/')
+  .get(controller.renderIndex)
+  .post(controller.create);
 
 router
-    .route('/:id')
-    .get(controller.renderEdit)
-    .put(controller.update)
-    .delete(controller.delete);
+  .route('/new')
+  .get(controller.renderNew);
+
+router
+  .route('/:id')
+  .get(controller.renderEdit)
+  .put(controller.update)
+  .delete(controller.delete);
 
 module.exports = router;

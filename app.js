@@ -41,7 +41,7 @@ app.use(session({
     mongooseConnection: mongoose.connection
   }),
   saveUninitialized: true,
-  resave: false
+  resave: false,
 }));
 
 app.use(express.static(path.join(__dirname, 'app/public')));
