@@ -9,7 +9,7 @@
         };
 
         var _dailyParticipants = function () {
-            $.get('/analytics/participant/daily', function (data) {
+            $.getJSON('/analytics/participant/daily', function (data) {
                 nv.addGraph(function () {
                     var chart = nv.models.multiBarChart().options({
                         staggerLabels: true,
@@ -34,7 +34,7 @@
         };
 
         var _dailyParticipantsPresent = function () {
-            $.get('/analytics/participant/daily/present', function (data) {
+            $.getJSON('/analytics/participant/daily/present', function (data) {
                 nv.addGraph(function () {
                     var chart = nv.models.multiBarChart().options({
                         staggerLabels: true,
@@ -59,7 +59,7 @@
         };
 
         var _dailyParticipantsAbsent = function () {
-            $.get('/analytics/participant/daily/absent', function (data) {
+            $.getJSON('/analytics/participant/daily/absent', function (data) {
                 nv.addGraph(function () {
                     var chart = nv.models.multiBarChart().options({
                         staggerLabels: true,
@@ -84,7 +84,7 @@
         };
 
         var _yearlyParticipants = function () {
-            $.get('/analytics/participant/yearly', function (data) {
+            $.getJSON('/analytics/participant/yearly', function (data) {
                 nv.addGraph(function () {
                     var chart = nv.models.discreteBarChart().options({
                         staggerLabels: true,
@@ -114,7 +114,7 @@
         };
 
         var _yearlyRegistrations = function () {
-            $.get('/analytics/participant/yearly/registration', function (data) {
+            $.getJSON('/analytics/participant/yearly/registration', function (data) {
                 nv.addGraph(function () {
                     var chart = nv.models.multiBarChart().options({
                         staggerLabels: true,

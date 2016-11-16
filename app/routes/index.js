@@ -1,20 +1,33 @@
-'use strict';
-
 const express = require('express');
-const router = express.Router();
 const controller = require('../controllers/index')
 const auth = require('../services/auth');
 
-router.get('/', auth.isAuthenticated, controller.renderIndex);
+const router = express.Router();
 
-router.get('/analytics/participant/yearly', auth.isAuthenticated, controller.yearlyParticipants);
+router.use(auth.isAuthenticated);
 
-router.get('/analytics/participant/yearly/registration', auth.isAuthenticated, controller.yearlyRegistrations);
+router
+  .route('/')
+  .get(controller.renderIndex);
 
-router.get('/analytics/participant/daily', auth.isAuthenticated, controller.dailyParticipants);
+router
+  .route('/analytics/participant/yearly')
+  .get(controller.yearlyParticipants);
 
-router.get('/analytics/participant/daily/present', auth.isAuthenticated, controller.dailyParticipantsPresent);
+router
+  .route('/analytics/participant/yearly/registration')
+  .get(controller.yearlyRegistrations);
 
-router.get('/analytics/participant/daily/absent', auth.isAuthenticated, controller.dailyParticipantsAbsent);
+router
+  .route('/analytics/participant/daily')
+  .get(controller.dailyParticipants);
+
+router
+  .route('/analytics/participant/daily/present')
+  .get(controller.dailyParticipantsPresent);
+
+router
+  .route('/analytics/participant/daily/absent')
+  .get(controller.dailyParticipantsAbsent);
 
 module.exports = router;
