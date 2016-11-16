@@ -3,8 +3,8 @@
 const moment = require('moment');
 const async = require('async');
 
-const ParticipantModel = require('../../../models/v1/participant');
-const ConfigurationModel = require('../../../models/v1/configuration');
+const ParticipantModel = require('../../../models/participant');
+const ConfigurationModel = require('../../../models/configuration');
 
 let _create = (data, cb) => {
     let participant = new ParticipantModel();

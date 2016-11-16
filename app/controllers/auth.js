@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const env = require('../../config/env');
-const UserModel = require('../models/v1/user');
+const UserModel = require('../models/user');
 
 const sendMail = (email_to, reset_secret) => {
   return new Promise((resolve, reject) => {

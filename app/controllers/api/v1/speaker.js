@@ -1,6 +1,6 @@
 'use strict';
 
-const Model = require('../../../models/v1/speaker');
+const Model = require('../../../models/speaker');
 
 module.exports = {
 

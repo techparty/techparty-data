@@ -1,6 +1,6 @@
 'use strict';
 
-const ParticipantModel = require('../../../models/v1/participant');
+const ParticipantModel = require('../../../models/participant');
 
 module.exports = {
 

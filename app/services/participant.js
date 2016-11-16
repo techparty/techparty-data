@@ -2,7 +2,7 @@
 const log = require('winston');
 
 // models
-const Model = require('../models/v1/participant');
+const Model = require('../models/participant');
 
 module.exports = {
 

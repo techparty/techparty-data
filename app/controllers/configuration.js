@@ -2,7 +2,7 @@
 const ErrorService = require('../services/error');
 
 // models
-const Model = require('../models/v1/configuration');
+const Model = require('../models/configuration');
 
 module.exports = {
 

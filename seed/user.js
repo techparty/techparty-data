@@ -2,7 +2,7 @@ const request = require('request');
 const async = require('async');
 const log = require('winston');
 const mongoose = require('../config/mongoose');
-const UserModel = require('../app/models/v1/user');
+const UserModel = require('../app/models/user');
 
 const users = []
 

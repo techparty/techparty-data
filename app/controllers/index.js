@@ -3,7 +3,7 @@ const async = require('async');
 const log = require('winston');
 
 // models
-const Model = require('../models/v1/participant');
+const Model = require('../models/participant');
 
 const _findByYear = (year, cb) => {
   return Model.find({ year: year }).select('days');

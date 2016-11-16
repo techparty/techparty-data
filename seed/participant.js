@@ -4,7 +4,7 @@ const request = require('request');
 const moment = require('moment');
 const log = require('winston');
 const mongoose = require('../config/mongoose');
-const Model = require('../app/models/v1/participant');
+const Model = require('../app/models/participant');
 
 request({
     uri: 'http://techparty.faccat.br/participant.json',

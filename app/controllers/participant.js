@@ -8,7 +8,7 @@ const async = require('async');
 const errorService = require('../services/error');
 
 // models
-const Model = require('../models/v1/participant');
+const Model = require('../models/participant');
 
 module.exports = {
 
@@ -38,7 +38,7 @@ module.exports = {
             }
         }, (err, result) => {
             if (err) return errorService.response(next, err);
-            
+
             return res.render('participant/index', {
                 participants: result.participants,
                 years: result.years,

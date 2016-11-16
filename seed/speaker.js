@@ -3,7 +3,7 @@
 const request = require('request');
 const log = require('winston');
 const mongoose = require('../config/mongoose');
-const SpeakerModel = require('../app/models/v1/speaker');
+const SpeakerModel = require('../app/models/speaker');
 
 let speakers = [];
 
