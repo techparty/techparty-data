@@ -15,16 +15,16 @@ const _getYears = (cb) => {
     .catch(cb);
 };
 
-const _getParticipants = (cb) => {
+const _getParticipants = (year, cb) => {
   Model
-    .find({ year: year })
+    .find({ year })
     .sort('-year name')
     .then(participants => cb(null, participants))
     .catch(cb);
 };
 
 const _getParticipantById = (id) => {
-  return Model .findById(id)
+  return Model.findById(id)
 };
 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
     const year = req.params.year || moment().get('year');
     async.parallel({
       years: async.apply(_getYears),
-      participants: async.apply(_getParticipants),
+      participants: async.apply(_getParticipants, year),
     }, (err, result) => {
       if (err) return ErrorService.response(next, err);
       res.render('participant/index', {
