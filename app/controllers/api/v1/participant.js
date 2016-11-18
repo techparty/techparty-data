@@ -20,9 +20,10 @@ const _update = (data, cb) => {
     name: data.name,
     cpf: data.cpf,
     days: [],
+    email: data.email,
   };
   data.days.forEach((day) => { update.days.push({ name: day }); });
-  ParticipantModel.update({ email: data.email, year: data.year }, { $set: update }, cb);
+  ParticipantModel.update({ cpf: data.cpf, year: data.year }, { $set: update }, cb);
 };
 
 module.exports = {
@@ -49,20 +50,23 @@ module.exports = {
     req.body.year = Number(req.body.year || moment().get('year'));
     req.body.days = !req.body.days ? [] : Array.isArray(req.body.days) ? req.body.days : req.body.days.split(',');
 
+    const { cpf, year, days } = req.body;
+
     ParticipantModel
-      .findOne({ email: req.body.email, year: req.body.year })
+      .findOne({ cpf, year })
       .then(exist => {
-        async.each(req.body.days, (day, cb) => {
-          if (!!exist && !!exist.days.filter(d => Number(d.name) === Number(day))[0]) return cb();
-          const param = `max-year-${req.body.year}-day-${day}`;
+        async.each(days, (day, cb) => {
+
+          if (exist && exist.days.filter(d => Number(d.name) === Number(day))[0]) return cb();
+
           ConfigurationModel
-            .findOne({ name : param })
+            .findOne({ name : `max-year-${year}-day-${day}` })
             .then(configuration => {
                 if (!configuration) return cb();
                 ParticipantModel
-                  .count({ year: req.body.year, 'days.name': day })
+                  .count({ year, 'days.name': day })
                   .then(count => {
-                      if (count >= configuration.value) return cb(`Maximum number of participants reached on day ${day}`);
+                      if (count >= Number(configuration.value)) return cb(`Maximum number of participants reached on day ${day}`);
                       cb();
                   })
                   .catch(cb);
@@ -71,9 +75,8 @@ module.exports = {
         }, err => {
           if (err) return res.status(400).json(err);
 
-          let _response = err => {
-              if (err) return res.status(500).json(err);
-              res.status(200).end();
+          let _response = (err) => {
+            err ? res.status(500).json(err) : res.status(200).json({ success: true });
           };
 
           exist ? _update(req.body, _response) : _create(req.body, _response);
