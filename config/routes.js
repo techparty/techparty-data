@@ -14,11 +14,11 @@ module.exports = app => {
   });
 
   // routes web
-  app.use('/', require('../app/routes/index'))
   app.use('/auth', require('../app/routes/auth'));
   app.use('/speaker', require('../app/routes/speaker'));
   app.use('/participant', require('../app/routes/participant'));
   app.use('/configuration', require('../app/routes/configuration'));
+  app.use('/', require('../app/routes/index'));
 
   // routes api v1
   app.use('/api/v1/healthcheck', require('../app/routes/api/v1/healthcheck'));
