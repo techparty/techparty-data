@@ -28,7 +28,7 @@ block content
 			|&nbsp
 			small
 				a(href="/participant/new") New
-						
+
 	section
 		input.form-control(id="search" placeholder="Search...")
 
@@ -57,7 +57,8 @@ block content
 								each day in participant.days
 									.checkbox.days
 										label
-											input(type="checkbox" checked=day.present data-day="#{day._id}" data-participant="#{participant.email}")
+											- var _id = day._id
+											input(type="checkbox" id="#{_id}" checked=day.present data-day="#{_id}" data-participant="#{participant.email}")
 											|#{day.name}
 						td
 							form(method='POST' action="/participant/#{participant._id}?_method=DELETE" onsubmit="return main.confirmDelete(#{JSON.stringify(participant.email)})")

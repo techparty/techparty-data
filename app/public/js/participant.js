@@ -7,7 +7,7 @@
     participant.on('connect', function () {
 
         participant.on('present', function (data) {
-            document.querySelector('input[data-day="' + data.day + '"]').checked = data.present;
+            document.getElementById(data.day).checked = data.present;
         });
 
     });
@@ -17,11 +17,7 @@
         var day = this.dataset.day;
         var present = this.checked;
 
-        participant.emit('present', {
-            email: email,
-            day: day,
-            present: present
-        });
+        participant.emit('present', { email, day, present });
     });
 
     $('#search').on('keyup', function (e) {
