@@ -1,0 +1,10 @@
+{
+  "name": "techparty-data",
+  "version": "2.0.0",
+  "title": "TechParty Data API",
+  "header": {
+    "title": "Versions",
+    "filename": "header.md"
+  },
+  "url": "/api/:version"
+}

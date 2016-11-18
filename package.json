@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app.js",
+    "doc": "./bin/doc",
     "dev": "nodemon"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
   },
   "homepage": "https://github.com/techparty/techparty-data",
   "devDependencies": {
+    "apidoc": "^0.16.1",
     "nodemon": "^1.11.0"
   }
 }

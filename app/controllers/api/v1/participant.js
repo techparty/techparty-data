@@ -29,10 +29,10 @@ const _update = (data, cb) => {
 module.exports = {
 
   search: (req, res) => {
-    const query = new RegExp(req.body.username, 'i');
+    const query = new RegExp(req.body.name, 'i');
     const year = req.body.year || new Date().getFullYear();
     ParticipantModel
-      .find({ name: { $regex: query }, year: year })
+      .find({ name: { $regex: query }, year })
       .select('name')
       .then(participants => res.status(200).json(participants))
       .catch(err => res.status(500).json(err));
