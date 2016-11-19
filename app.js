@@ -32,14 +32,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 
-const secret = 'keyboard cat';
+const { secret } = env;
 
 app.use(cookieParser(secret));
 app.use(session({
-  secret: secret,
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection
-  }),
+  secret,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
   saveUninitialized: true,
   resave: false,
 }));

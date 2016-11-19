@@ -16,4 +16,6 @@ module.exports = {
 
   email_password: env('TECHPARTY_EMAIL_PASSWORD'),
 
+  secret: env('SECRET') || 'keyboard cat',
+
 };

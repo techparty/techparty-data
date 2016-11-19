@@ -1,36 +1,35 @@
 ;(function (window, document, undefined) {
 
-    'use strict';
+  'use strict';
 
-    var participant = io();
+  const socket = io();
 
-    participant.on('connect', function () {
-
-        participant.on('present', function (data) {
-            document.getElementById(data.day).checked = data.present;
-        });
-
+  socket.on('connect', function () {
+    socket.on('present', function (data) {
+      document.getElementById(data.day).checked = data.present;
     });
+  });
 
-    $('.days').find('input').on('change', function (e) {
-        var email = this.dataset.participant;
-        var day = this.dataset.day;
-        var present = this.checked;
+  $('.days').find('input').on('change', function (e) {
+    const data = this.dataset;
+    const cpf = data.cpf;
+    const day = data.day;
+    const year = data.year;
+    const present = this.checked;
+    socket.emit('present', { cpf, day, year, present });
+  });
 
-        participant.emit('present', { email, day, present });
+  $('#search').on('keyup', function (e) {
+    let search = e.target.value.toLowerCase();
+    let $rows = $('tbody tr');
+    $rows.hide();
+    let result = $rows.filter(function(index, tr) {
+      let columns = tr.querySelectorAll('td');
+      for (let i = 0; i <= 2; i++) {
+        if (columns[i].innerHTML.toLowerCase().indexOf(search) !== -1) return true;
+      }
     });
-
-    $('#search').on('keyup', function (e) {
-        var search = e.target.value.toLowerCase();
-        var $rows = $('tbody tr');
-        $rows.hide();
-        var result = $rows.filter(function(index, tr) {
-            var columns = tr.querySelectorAll('td');
-            for (var i = 0; i <= 2; i++) {
-                if (columns[i].innerHTML.toLowerCase().indexOf(search) !== -1) return true;
-            }
-        });
-        $(result).show();
-    });
+    $(result).show();
+  });
 
 })(window, document);

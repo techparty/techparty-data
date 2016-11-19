@@ -16,10 +16,15 @@ block content
 					.form-group
 						label(for="email") Email
 						input.form-control(type="email" id="email" name="email" required)
-
-					.form-group
-						label(for="cpf") CPF
-						input.form-control(type="number" id="cpf" name="cpf" required)
+					.row
+						.col-md-6
+							.form-group
+								label(for="cpf") CPF
+								input.form-control(type="number" id="cpf" name="cpf" required)
+						.col-md-6
+							.form-group
+								label(for="year") Year
+								input.form-control(type="number" id="year" name="year" required)
 				.col-md-6
 					.form-group
 						label(for="days") Days

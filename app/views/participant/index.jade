@@ -40,6 +40,7 @@ block content
 					th Index
 					th Name
 					th Email
+					th CPF
 					th Year
 					th Created at
 					th Days
@@ -50,6 +51,7 @@ block content
 						td #{index}
 						td #{participant.name}
 						td #{participant.email}
+						td #{participant.cpf}
 						td #{participant.year}
 						td #{moment(participant.created_at).format('DD/MM/YYYY')}
 						td
@@ -58,8 +60,8 @@ block content
 									.checkbox.days
 										label
 											- var _id = day._id
-											input(type="checkbox" id="#{_id}" checked=day.present data-day="#{_id}" data-participant="#{participant.email}")
-											|#{day.name}
+											input(type="checkbox" id="#{ _id }" checked=day.present data-day="#{ _id }" data-cpf="#{ participant.cpf }" data-year="#{ participant.year }")
+											|#{ day.name }
 						td
 							form(method='POST' action="/participant/#{participant._id}?_method=DELETE" onsubmit="return main.confirmDelete(#{JSON.stringify(participant.email)})")
 								button.btn-link(type="submit")
