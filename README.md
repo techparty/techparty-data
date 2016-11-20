@@ -1,6 +1,8 @@
 # techparty-data
 
 [![Build Status](https://travis-ci.org/techparty/techparty-data.svg?branch=master)](https://travis-ci.org/techparty/techparty-data)
+[![Dependency Status](https://david-dm.org/techparty/techparty-data.svg)](https://david-dm.org/techparty/techparty-data)
+[![devDependency Status](https://david-dm.org/techparty/techparty-data/dev-status.svg)](https://david-dm.org/techparty/techparty-data#info=devDependencies)
 
 #### Install dependencies
 ```js
