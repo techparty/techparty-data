@@ -1,6 +1,6 @@
 # techparty-data
 
-## TechParty API
+[![Build Status](https://travis-ci.org/techparty/techparty-data.svg?branch=master)](https://travis-ci.org/techparty/techparty-data)
 
 #### Install dependencies
 ```js
