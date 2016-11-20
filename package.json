@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "doc": "./bin/doc",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "eslint": "eslint . --ext .js"
   },
   "dependencies": {
     "async": "^2.1.2",

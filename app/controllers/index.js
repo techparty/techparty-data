@@ -1,6 +1,5 @@
 // modules
 const async = require('async');
-const log = require('winston');
 
 // models
 const Model = require('../models/participant');
