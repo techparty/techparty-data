@@ -14,7 +14,7 @@ module.exports = {
 
   get: (req, res) => {
     Model
-      .findOne({ _id : req.body.id })
+      .findOne({ _id: req.body.id })
       .select('-_id')
       .then(speaker => res.status(200).json(speaker))
       .catch(err => res.status(500).json(err));

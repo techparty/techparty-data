@@ -4,8 +4,8 @@ const async = require('async');
 const ParticipantModel = require('../../../models/participant');
 const ConfigurationModel = require('../../../models/configuration');
 
-const _create = (data, cb) => {
-  let participant = new ParticipantModel();
+const create = (data, cb) => {
+  const participant = new ParticipantModel();
   participant.name = data.name;
   participant.email = data.email;
   participant.cpf = data.cpf;
@@ -15,15 +15,15 @@ const _create = (data, cb) => {
   participant.save(cb);
 };
 
-const _update = (data, cb) => {
-  let update = {
+const update = (data, cb) => {
+  const participant = {
     name: data.name,
     cpf: data.cpf,
     days: [],
     email: data.email,
   };
-  data.days.forEach((day) => { update.days.push({ name: day }); });
-  ParticipantModel.update({ cpf: data.cpf, year: data.year }, { $set: update }, cb);
+  data.days.forEach((day) => { participant.days.push({ name: day }); });
+  ParticipantModel.update({ cpf: data.cpf, year: data.year }, { $set: participant }, cb);
 };
 
 module.exports = {
@@ -40,46 +40,48 @@ module.exports = {
 
   get: (req, res) => {
     ParticipantModel
-      .findOne({ _id : req.body.id })
+      .findOne({ _id: req.body.id })
       .select('-_id')
       .then(participant => res.status(200).json(participant))
       .catch(err => res.status(500).json(err));
   },
 
   create: (req, res) => {
-    req.body.year = Number(req.body.year || moment().get('year'));
-    req.body.days = !req.body.days ? [] : Array.isArray(req.body.days) ? req.body.days : req.body.days.split(',');
+    const data = req.body;
+    data.year = Number(data.year || moment().get('year'));
+    data.days = data.days ? data.days.split(',') : [];
 
-    const { cpf, year, days } = req.body;
+    const { cpf, year, days } = data;
 
     ParticipantModel
       .findOne({ cpf, year })
-      .then(exist => {
+      .then((exist) => {
         async.each(days, (day, cb) => {
-
           if (exist && exist.days.filter(d => Number(d.name) === Number(day))[0]) return cb();
 
           ConfigurationModel
-            .findOne({ name : `max-year-${year}-day-${day}` })
-            .then(configuration => {
-                if (!configuration) return cb();
-                ParticipantModel
-                  .count({ year, 'days.name': day })
-                  .then(count => {
-                      if (count >= Number(configuration.value)) return cb(`Maximum number of participants reached on day ${day}`);
-                      cb();
-                  })
-                  .catch(cb);
+            .findOne({ name: `max-year-${year}-day-${day}` })
+            .then((configuration) => {
+              if (!configuration) return cb();
+              ParticipantModel
+                .count({ year, 'days.name': day })
+                .then((count) => {
+                  if (count >= Number(configuration.value)) return cb(`Maximum number of participants reached on day ${day}`);
+                  cb();
+                })
+                .catch(cb);
             })
             .catch(cb);
-        }, err => {
+        }, (err) => {
           if (err) return res.status(400).json(err);
 
-          let _response = (err) => {
-            err ? res.status(500).json(err) : res.status(200).json({ success: true });
+          const response = (err) => {
+            if (err) return res.status(500).json(err);
+            res.status(200).json({ success: true });
           };
 
-          exist ? _update(req.body, _response) : _create(req.body, _response);
+          if (exist) return update(data, response);
+          create(data, response);
         });
       })
       .catch(err => res.status(500).json(err));

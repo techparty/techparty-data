@@ -1,9 +1,8 @@
-module.exports = app => {
-
+module.exports = (app) => {
   app.use((req, res, next) => {
     // enabling cors
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
     // is logged
     res.locals.isLogged = req.isAuthenticated();
@@ -33,18 +32,18 @@ module.exports = app => {
   // catch 404 and forward to error handler
   app.use((error, req, res, next) => {
     if (error) return next(error);
-    let err = new Error('Not Found');
+    const err = new Error('Not Found');
     err.status = 404;
     next(err);
   });
 
 
   // error handlers
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     res.status(err.status || 500);
     res.json({
       message: err.message,
-      error: app.get('env') === 'development' ? err : {}
+      error: app.get('env') === 'development' ? err : {},
     });
   });
-}
+};

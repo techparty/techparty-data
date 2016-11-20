@@ -1,7 +1,8 @@
+require('../config/mongoose');
+
 const request = require('request');
-const moment = require('moment');
 const log = require('winston');
-const mongoose = require('../config/mongoose');
+const _ = require('lodash');
 const Model = require('../app/models/participant');
 
 request({
@@ -11,17 +12,13 @@ request({
 }, (err, response, body) => {
   if (err) throw err;
 
-  let participants = body.participants;
+  const participants = body.participants;
+  const years = {};
 
-  let years = {};
+  participants.forEach((participant) => {
+    const { year, name } = participant;
 
-  participants.forEach(participant => {
-    let year = participant.year;
-    let name = participant.name;
-
-    if (!years[year]) {
-      years[year] = {};
-    }
+    if (!years[year]) years[year] = {};
 
     if (!years[year][name]) {
       participant.days = [
@@ -29,11 +26,11 @@ request({
         { name: 2, present: false },
         { name: 3, present: false },
         { name: 4, present: false },
-        { name: 5, present: false }
+        { name: 5, present: false },
       ];
       years[year][name] = participant;
     } else {
-      for (let i = 0, l = 5; i < l; i++) {
+      for (let i = 0, l = 5; i < l; i += 1) {
         if (!years[year][name].days[i].present) {
           years[year][name].days[i].present = true;
           break;
@@ -42,12 +39,9 @@ request({
     }
   });
 
-  for (let year in years) {
-    for (let name in years[year]) {
-      Model.create(years[year][name], err => {
-        if (err) log.error(err);
-      });
-    }
-  }
-
-})
+  _.forEach(years, (year) => {
+    Model
+      .create(year.name)
+      .catch(err => log.error(err));
+  });
+});

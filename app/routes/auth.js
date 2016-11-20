@@ -12,7 +12,7 @@ router
 
 router
   .route('/signout')
-  .get(AuthService.isAuthenticated, controller.signOut)
+  .get(AuthService.isAuthenticated, controller.signOut);
 
 router
   .route('/reset')

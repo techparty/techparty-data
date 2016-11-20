@@ -24,7 +24,7 @@ const _getParticipants = (year, cb) => {
 };
 
 const _getParticipantById = (id) => {
-  return Model.findById(id)
+  return Model.findById(id);
 };
 
 module.exports = {
@@ -51,14 +51,14 @@ module.exports = {
   delete: (req, res, next) => {
     const id = req.params.id;
     _getParticipantById(id)
-      .then(participant => {
+      .then((participant) => {
         if (!participant) return next();
         Model
           .remove({ _id: id })
           .then(() => res.redirect('/participant'))
           .catch(err => ErrorService.response(next, err));
       })
-      .catch(err => ErrorService.response(next, err))
+      .catch(err => ErrorService.response(next, err));
   },
 
 };

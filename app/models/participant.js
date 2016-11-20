@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const DaySchema = new Schema({
-  name : {
+  name: {
     type: Number,
     required: true,
   },
@@ -11,7 +11,7 @@ const DaySchema = new Schema({
     type: Boolean,
     default: false,
   },
-})
+});
 
 const ParticipantSchema = new Schema({
   name: {
@@ -26,7 +26,7 @@ const ParticipantSchema = new Schema({
   cpf: {
     type: String,
     validate: {
-      validator: v => {
+      validator: (v) => {
         if (!v) { return true; }
         return /[0-9]{11}/.test(v);
       },

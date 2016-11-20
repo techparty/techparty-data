@@ -6,10 +6,8 @@ const Model = require('../models/participant');
 
 module.exports = {
 
-  socketPresent : (socket) => {
-
-    socket.on('present', data => {
-
+  socketPresent: (socket) => {
+    socket.on('present', (data) => {
       const error = (err) => {
         log.error(err);
         socket.emit('present', err);
@@ -17,14 +15,14 @@ module.exports = {
 
       const criteria = {
         cpf: data.cpf,
-        year: data.year
+        year: data.year,
       };
 
       Model
         .findOne(criteria)
-        .then(participant => {
-          participant.days.forEach(day => {
-            if (day._id == data.day) day.present = data.present;
+        .then((participant) => {
+          participant.days.forEach((day) => {
+            if (String(day._id) === String(data.day)) day.present = data.present;
           });
 
           Model
@@ -34,7 +32,6 @@ module.exports = {
         })
         .catch(error);
     });
-
   },
 
 };

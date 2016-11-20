@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const log = require('winston');
 const env = require('./config/env');
 
-if ('production' === env.node_env) require('newrelic');
+if (env.node_env === 'production') require('newrelic');
 
 // config mongoose
 const mongoose = require('./config/mongoose');

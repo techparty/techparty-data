@@ -1,10 +1,9 @@
-const request = require('request');
-const async = require('async');
+require('../config/mongoose');
+
 const log = require('winston');
-const mongoose = require('../config/mongoose');
 const UserModel = require('../app/models/user');
 
-const users = []
+const users = [];
 
 users.push({
   name: 'TechParty',
@@ -12,7 +11,7 @@ users.push({
   password: 'pass',
 });
 
-UserModel.create(users, err => {
-  if (err) return log.error('ERR: ', err);
-  log.info('DONE');
-})
+UserModel
+  .create(users)
+  .then(() => log.info('DONE'))
+  .catch(err => log.error('ERR: ', err));

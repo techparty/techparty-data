@@ -1,6 +1,5 @@
 // modules
 const passport = require('passport');
-const log = require('winston');
 const LocalStrategy = require('passport-local').Strategy;
 
 // models
@@ -18,8 +17,8 @@ passport.use(new LocalStrategy(
   (username, password, done) => {
     process.nextTick(() => {
       Model
-        .findOne({ username: username })
-        .then(user => {
+        .findOne({ username })
+        .then((user) => {
           if (!user) return done(null, false, { message: 'Incorrect username.' });
           if (!user.verifyPassword(password)) return done(null, false, { message: 'Incorrect password.' });
           done(null, user);

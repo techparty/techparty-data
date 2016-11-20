@@ -1,9 +1,9 @@
-const request = require('request');
+require('../config/mongoose');
+
 const log = require('winston');
-const mongoose = require('../config/mongoose');
 const SpeakerModel = require('../app/models/speaker');
 
-let speakers = [];
+const speakers = [];
 
 speakers.push({
   name: 'Everton Luís Berz',
@@ -21,14 +21,14 @@ speakers.push({
 
 speakers.push({
   name: 'Rafael Eyng',
-  talk: "Uma introdução ao GitHub",
+  talk: 'Uma introdução ao GitHub',
   date: '04/07/2015',
   year: 2015,
 });
 
 speakers.push({
   name: 'Marlon Bernardes',
-  talk: "Uma introdução ao GitHub",
+  talk: 'Uma introdução ao GitHub',
   date: '04/07/2015',
   year: 2015,
 });
@@ -42,7 +42,7 @@ speakers.push({
 
 speakers.push({
   name: 'Eduardo Brandes',
-  talk: "The Business Intelligence's Toolbox",
+  talk: 'The Business Intelligence\'s Toolbox',
   date: '04/08/2015',
   year: 2015,
 });
@@ -63,14 +63,14 @@ speakers.push({
 
 speakers.push({
   name: 'Gabriel Bender',
-  talk: "UX e Desenvolvedores: Projetando o Óbvio",
+  talk: 'UX e Desenvolvedores: Projetando o Óbvio',
   date: '04/09/2015',
   year: 2015,
 });
 
 speakers.push({
   name: 'Cícero Raupp Rolim',
-  talk: "O Bode vai pro espaço!",
+  talk: 'O Bode vai pro espaço!',
   date: '04/10/2015',
   minutes: 100,
   year: 2015,
@@ -78,7 +78,7 @@ speakers.push({
 
 speakers.push({
   name: 'Paulo Bridi',
-  talk: "O Bode vai pro espaço!",
+  talk: 'O Bode vai pro espaço!',
   date: '04/10/2015',
   minutes: 100,
   year: 2015,
@@ -86,7 +86,7 @@ speakers.push({
 
 speakers.push({
   name: 'Santiago Andreuzza',
-  talk: "O Bode vai pro espaço!",
+  talk: 'O Bode vai pro espaço!',
   date: '04/10/2015',
   minutes: 100,
   year: 2015,
@@ -108,14 +108,14 @@ speakers.push({
 
 speakers.push({
   name: 'Paulo Bridi',
-  talk: "Do Cabrito ao Bode",
+  talk: 'Do Cabrito ao Bode',
   date: '03/31/2014',
   year: 2014,
 });
 
 speakers.push({
   name: 'Santiago Andreuzza',
-  talk: "Do Cabrito ao Bode",
+  talk: 'Do Cabrito ao Bode',
   date: '03/31/2014',
   year: 2014,
 });
@@ -176,7 +176,7 @@ speakers.push({
   year: 2014,
 });
 
-SpeakerModel.create(speakers, err => {
-  if (err) return log.error(err);
-  log.info('POPULATE OK');
-});
+SpeakerModel
+  .create(speakers)
+  .then(() => log.info('POPULATE OK'))
+  .catch(err => log.error(err));

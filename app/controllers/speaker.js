@@ -20,7 +20,7 @@ module.exports = {
   },
 
   create: (req, res, next) => {
-    let speaker = new Model(req.body);
+    const speaker = new Model(req.body);
     speaker.year = Number(req.body.date.replace(/\/.*/, ''));
     speaker
       .save()
@@ -31,7 +31,7 @@ module.exports = {
   renderEdit: (req, res, next) => {
     Model
       .findById(req.params.id)
-      .then(speaker => {
+      .then((speaker) => {
         if (!speaker) return next();
         res.render('speaker/edit', { speaker });
       })
@@ -42,11 +42,12 @@ module.exports = {
     const { id } = req.params;
     Model
       .findById(id)
-      .then(speaker => {
+      .then((speaker) => {
         if (!speaker) return next();
-        if (req.body.date) req.body.year = Number(req.body.date.replace(/\/.*/, ''));
+        const { body } = req;
+        if (body.date) body.year = Number(body.date.replace(/\/.*/, ''));
         Model
-          .update({ _id: id }, { $set : req.body })
+          .update({ _id: id }, { $set: body })
           .then(() => res.redirect('/speaker'))
           .catch(err => ErrorService.response(next, err));
       })
@@ -57,7 +58,7 @@ module.exports = {
     const { id } = req.params;
     Model
       .findById(id)
-      .then(speaker => {
+      .then((speaker) => {
         if (!speaker) return next();
         Model
           .remove({ _id: id })

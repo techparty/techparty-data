@@ -2,7 +2,6 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
 
 const UserSchema = new Schema({
   username: {
@@ -34,26 +33,26 @@ const UserSchema = new Schema({
 
 UserSchema
   .virtual('userId')
-  .get(function () {
+  .get(function get() {
     return this.id;
   });
 
 UserSchema
   .virtual('password')
-  .set(function (password) {
+  .set(function set(password) {
     this._plain_password = password;
     this.salt = crypto.randomBytes(32).toString('base64');
     this.hashed_password = this.encryptPassword(password);
   })
-  .get(function () {
+  .get(function get() {
     return this._plain_password;
   });
 
-UserSchema.methods.encryptPassword = function (password) {
+UserSchema.methods.encryptPassword = function encryptPassword(password) {
   return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
 };
 
-UserSchema.methods.verifyPassword = function (password) {
+UserSchema.methods.verifyPassword = function verifyPassword(password) {
   return this.encryptPassword(password) === this.hashed_password;
 };
 

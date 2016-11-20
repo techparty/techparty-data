@@ -2,29 +2,29 @@ const nodemailer = require('nodemailer');
 const env = require('../../config/env');
 const UserModel = require('../models/user');
 
-const sendMail = (email_to, reset_secret) => {
+const sendMail = (emailTo, resetSecret) => {
   return new Promise((resolve, reject) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
-      auth: { user: env.email_user, pass: env.email_password }
+      auth: { user: env.email_user, pass: env.email_password },
     });
 
     const mailOptions = {
       from: `${env.email_name} <${env.email_user}>`,
-      to: email_to,
+      to: emailTo,
       subject: 'TechParty Faccat - Reset password',
       html: `
         <p>Your secret key to reset password:</p>
-        <b>${reset_secret}</b>
+        <b>${resetSecret}</b>
       `,
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    transporter.sendMail(mailOptions, (error) => {
       if (error) return reject(error);
       resolve();
     });
   });
-}
+};
 
 const crypto = require('crypto');
 
@@ -48,10 +48,10 @@ module.exports = {
     if (!email) return next(`Email ${email} invalid`);
 
     const secret = crypto.randomBytes(32).toString('base64');
-    req.session.reset_secret = { email, secret }
+    req.session.reset_secret = { email, secret };
     sendMail(email, secret)
       .then(() => res.render('auth/reset'))
-      .catch(next)
+      .catch(next);
   },
 
   reset: (req, res, next) => {
@@ -63,7 +63,7 @@ module.exports = {
 
     UserModel
       .findOne({ username: email })
-      .then(user => {
+      .then((user) => {
         if (!user) return next('User not found');
         user.password = req.body.password;
         user

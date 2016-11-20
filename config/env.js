@@ -10,6 +10,8 @@ module.exports = {
 
   new_relic_license_key: env('NEW_RELIC_LICENSE_KEY'),
 
+  new_relic_level: env('NEW_RELIC_LOG') || 'info',
+
   email_name: env('TECHPARTY_EMAIL_NAME'),
 
   email_user: env('TECHPARTY_EMAIL_USER'),
