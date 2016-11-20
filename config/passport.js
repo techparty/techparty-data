@@ -25,7 +25,7 @@ passport.use(new LocalStrategy(
         })
         .catch(done);
     });
-  }
+  },
 ));
 
 module.exports = passport;
