@@ -4,6 +4,18 @@ const ErrorService = require('../services/error');
 // models
 const Model = require('../models/configuration');
 
+const findById = (id) => {
+  return new Promise((resolve, reject) => {
+    Model
+      .findById(id)
+      .then((configuration) => {
+        if (!configuration) return reject('Not found');
+        resolve(configuration);
+      })
+      .catch(reject);
+  });
+};
+
 module.exports = {
 
   renderIndex: (req, res, next) => {
@@ -27,21 +39,15 @@ module.exports = {
   },
 
   renderEdit: (req, res, next) => {
-    Model
-      .findById(req.params.id)
-      .then((configuration) => {
-        if (!configuration) return next();
-        res.render('configuration/edit', { configuration });
-      })
+    findById(req.params.id)
+      .then(configuration => res.render('configuration/edit', { configuration }))
       .catch(err => ErrorService.response(next, err));
   },
 
   update: (req, res, next) => {
     const { id } = req.params;
-    Model
-      .findById(id)
-      .then((configuration) => {
-        if (!configuration) return next();
+    findById(id)
+      .then(() => {
         const { body } = req;
         delete body._id;
         Model
@@ -54,10 +60,8 @@ module.exports = {
 
   delete: (req, res, next) => {
     const id = req.params.id;
-    Model
-      .findById(id)
-      .then((configuration) => {
-        if (!configuration) return next();
+    findById(id)
+      .then(() => {
         Model
           .remove({ _id: id })
           .then(() => res.redirect('/configuration'))

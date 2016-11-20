@@ -4,14 +4,19 @@ const async = require('async');
 const ParticipantModel = require('../../../models/participant');
 const ConfigurationModel = require('../../../models/configuration');
 
+const prepareDays = (days) => {
+  return days.map((day) => {
+    return { name: day };
+  });
+};
+
 const create = (data, cb) => {
   const participant = new ParticipantModel();
   participant.name = data.name;
   participant.email = data.email;
   participant.cpf = data.cpf;
   participant.year = data.year;
-  participant.days = [];
-  data.days.forEach((day) => { participant.days.push({ name: day }); });
+  participant.days = prepareDays(data.days);
   participant.save(cb);
 };
 
@@ -19,10 +24,9 @@ const update = (data, cb) => {
   const participant = {
     name: data.name,
     cpf: data.cpf,
-    days: [],
+    days: prepareDays(data.days),
     email: data.email,
   };
-  data.days.forEach((day) => { participant.days.push({ name: day }); });
   ParticipantModel.update({ cpf: data.cpf, year: data.year }, { $set: participant }, cb);
 };
 
