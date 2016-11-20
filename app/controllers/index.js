@@ -1,5 +1,6 @@
 // modules
 const async = require('async');
+const _ = require('lodash');
 
 // models
 const Model = require('../models/participant');
@@ -57,30 +58,28 @@ const _getNumberParticipantsDaily = (year, present) => {
         .catch(cb);
     }, (err) => {
       if (err) return reject(err);
-      resolve(values.sort((a, b) => a.label > b.label));
+      resolve(_.sortBy(values, 'label'));
     });
   });
 };
 
-const _dailyParticipant = (present = null) => {
-  return new Promise((resolve, reject) => {
-    _getYears()
-      .then((years) => {
-        const result = [];
-        async.each(years, (year, cb) => {
-          _getNumberParticipantsDaily(year, present)
-            .then((values) => {
-              result.push({ key: year, values });
-              cb();
-            })
-            .catch(cb);
-        }, (err) => {
-          if (err) return reject(err);
-          resolve(result.sort((a, b) => a.key > b.key));
-        });
-      })
-      .catch(reject);
-  });
+const _dailyParticipant = (res, present = null) => {
+  _getYears()
+    .then((years) => {
+      const result = [];
+      async.each(years, (year, cb) => {
+        _getNumberParticipantsDaily(year, present)
+          .then((values) => {
+            result.push({ key: year, values });
+            cb();
+          })
+          .catch(cb);
+      }, (err) => {
+        if (err) return res.status(500).json(err);
+        res.status(200).json(_.sortBy(result, 'key'));
+      });
+    })
+    .catch(err => res.status(500).json(err));
 };
 
 module.exports = {
@@ -103,7 +102,7 @@ module.exports = {
             .catch(cb);
         }, (err) => {
           if (err) return res.status(500).json(err);
-          res.status(200).json(values.sort((a, b) => a.label > b.label));
+          res.status(200).json(_.sortBy(values, 'label'));
         });
       })
       .catch(err => res.status(500).json(err));
@@ -122,9 +121,9 @@ module.exports = {
         }, (err) => {
           if (err) return res.status(500).json(err);
           const result = [];
-          result.push({ key: 'Total', values: valuesTotal.sort((a, b) => a.label > b.label) });
-          result.push({ key: 'Present', values: valuesPresent.sort((a, b) => a.label > b.label) });
-          result.push({ key: 'Absent', values: valuesAbsent.sort((a, b) => a.label > b.label) });
+          result.push({ key: 'Total', values: _.sortBy(valuesTotal, 'label') });
+          result.push({ key: 'Present', values: _.sortBy(valuesPresent, 'label') });
+          result.push({ key: 'Absent', values: _.sortBy(valuesAbsent, 'label') });
           res.status(200).json(result);
         });
       })
@@ -132,21 +131,15 @@ module.exports = {
   },
 
   dailyParticipants: (req, res) => {
-    _dailyParticipant()
-      .then(data => res.status(200).json(data))
-      .catch(err => res.status(500).json(err));
+    _dailyParticipant(res);
   },
 
   dailyParticipantsPresent: (req, res) => {
-    _dailyParticipant(true)
-      .then(data => res.status(200).json(data))
-      .catch(err => res.status(500).json(err));
+    _dailyParticipant(res, true);
   },
 
   dailyParticipantsAbsent: (req, res) => {
-    _dailyParticipant(false)
-      .then(data => res.status(200).json(data))
-      .catch(err => res.status(500).json(err));
+    _dailyParticipant(res, false);
   },
 
 };
