@@ -4,22 +4,20 @@ const AuthService = require('../services/auth');
 
 const router = express.Router();
 
-router.use(AuthService.isAuthenticated);
-
 router
   .route('/')
-  .get(controller.renderIndex);
+  .get(AuthService.isAuthenticated(), controller.renderIndex);
 
 router
   .route('/new')
-  .get(controller.renderNew);
+  .get(AuthService.isAuthenticated(), controller.renderNew);
 
 router
   .route('/:year')
-  .get(controller.renderIndex);
+  .get(AuthService.isAuthenticated(), controller.renderIndex);
 
 router
   .route('/:id')
-  .delete(controller.delete);
+  .delete(AuthService.isAuthenticated(), controller.delete);
 
 module.exports = router;

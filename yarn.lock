@@ -557,6 +557,12 @@ core-util-is@~1.0.0, core-util-is@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+cpf:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/cpf/-/cpf-0.1.5.tgz#275b45d739817a46dc6fb6c58117e2d649c25186"
+  dependencies:
+    shuffle-list "^1.0.0"
+
 crc@3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/crc/-/crc-3.4.1.tgz#65d5830b1a2569557cfb324c0e679998521473ee"
@@ -2722,6 +2728,10 @@ shelljs@^0.7.5:
     glob "^7.0.0"
     interpret "^1.0.0"
     rechoir "^0.6.2"
+
+shuffle-list@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/shuffle-list/-/shuffle-list-1.0.0.tgz#16414cde6eb6352803738b7c43ece4a14d847573"
 
 signal-exit@^3.0.0:
   version "3.0.2"

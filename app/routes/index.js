@@ -4,30 +4,28 @@ const AuthService = require('../services/auth');
 
 const router = express.Router();
 
-router.use(AuthService.isAuthenticated);
-
 router
   .route('/')
-  .get(controller.renderIndex);
+  .get(AuthService.isAuthenticated(), controller.renderIndex);
 
 router
   .route('/analytics/participant/yearly')
-  .get(controller.yearlyParticipants);
+  .get(AuthService.isAuthenticated(), controller.yearlyParticipants);
 
 router
   .route('/analytics/participant/yearly/registration')
-  .get(controller.yearlyRegistrations);
+  .get(AuthService.isAuthenticated(), controller.yearlyRegistrations);
 
 router
   .route('/analytics/participant/daily')
-  .get(controller.dailyParticipants);
+  .get(AuthService.isAuthenticated(), controller.dailyParticipants);
 
 router
   .route('/analytics/participant/daily/present')
-  .get(controller.dailyParticipantsPresent);
+  .get(AuthService.isAuthenticated(), controller.dailyParticipantsPresent);
 
 router
   .route('/analytics/participant/daily/absent')
-  .get(controller.dailyParticipantsAbsent);
+  .get(AuthService.isAuthenticated(), controller.dailyParticipantsAbsent);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const cpf = require('cpf');
 
 const Schema = mongoose.Schema;
 
@@ -25,13 +26,6 @@ const ParticipantSchema = new Schema({
   },
   cpf: {
     type: String,
-    validate: {
-      validator: (v) => {
-        if (!v) { return true; }
-        return /[0-9]{11}/.test(v);
-      },
-      message: '{VALUE} is not a valid',
-    },
     default: '',
   },
   year: {
@@ -44,5 +38,10 @@ const ParticipantSchema = new Schema({
     default: Date.now,
   },
 });
+
+ParticipantSchema
+  .path('cpf')
+  .set(value => value.replace(/\D+/g, ''))
+  .validate(value => cpf.validate(value), 'Invalid CPF');
 
 module.exports = mongoose.model('Participant', ParticipantSchema);

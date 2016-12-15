@@ -52,6 +52,7 @@ module.exports = {
 
   create: (req, res) => {
     const data = req.body;
+    data.cpf = data.cpf.replace(/\D+/g, '');
     data.year = Number(data.year || moment().get('year'));
     data.days = data.days ? data.days.split(',') : [];
 
