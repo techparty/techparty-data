@@ -1,8 +1,6 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": "airbnb-base",
     "plugins": [
-        "react",
-        "jsx-a11y",
         "import"
     ],
     "rules":{
@@ -16,5 +14,6 @@ module.exports = {
       "no-param-reassign": "off",
       "no-underscore-dangle": "off",
       "new-cap": "off",
+      "no-await-in-loop": "off",
     }
 };
