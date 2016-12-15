@@ -6,27 +6,25 @@
 [![devDependency Status](https://david-dm.org/techparty/techparty-data/dev-status.svg)](https://david-dm.org/techparty/techparty-data#info=devDependencies)
 
 #### Install dependencies
-```js
-  npm install
+```bash
+[sudo] npm install
+```
+or
+```bash
+yarn
 ```
 
 #### Starting
-```js
-  npm start
+```bash
+npm start
 ```
 
 #### Documentation
-```js
-  npm run doc
+```bash
+npm run doc
 ```
 
 > http://localhost:3000/doc
- 
-#### Seed
-```js
-  node seed/participant.js
-  node seed/speaker.js
-```
 
 #### Technologies
 - [Node.js >= 6.9.1](https://nodejs.org/)
