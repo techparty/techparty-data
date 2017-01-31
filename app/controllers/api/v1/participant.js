@@ -54,7 +54,8 @@ module.exports = {
     const data = req.body;
     data.cpf = data.cpf.replace(/\D+/g, '');
     data.year = Number(data.year || moment().get('year'));
-    data.days = data.days ? data.days.split(',') : [];
+    if (!data.days) data.days = [];
+    else if (typeof data.days === 'string') data.days = data.days.split(',');
 
     const { cpf, year, days } = data;
 
