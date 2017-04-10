@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
 const log = require('winston');
+const Promise = require('bluebird');
 const env = require('./env');
 
 // Build the connection string
 const dbURI = env.mongodb;
 
+mongoose.Promise = Promise;
+
 mongoose.set('debug', env.node_env !== 'production');
 
 mongoose.connect(dbURI);
-
-mongoose.Promise = global.Promise;
 
 mongoose.connection.on('connected', () => log.info(`Mongoose default connection open to ${dbURI}`));
 
