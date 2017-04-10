@@ -22,11 +22,11 @@ const ParticipantSchema = new Schema({
   },
   email: {
     type: String,
-    default: '',
+    required: true,
   },
   cpf: {
     type: String,
-    default: '',
+    required: true,
   },
   year: {
     type: Number,
