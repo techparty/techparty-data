@@ -30,6 +30,12 @@ const update = (data, cb) => {
   ParticipantModel.update({ cpf: data.cpf, year: data.year }, { $set: participant }, cb);
 };
 
+const findOne = (criteria = {}, select = '') => {
+  return ParticipantModel
+    .findOne(criteria)
+    .select(select)
+};
+
 module.exports = {
 
   search: (req, res) => {
@@ -38,15 +44,13 @@ module.exports = {
     ParticipantModel
       .find({ name: { $regex: query }, year })
       .select('name')
-      .then(participants => res.status(200).json(participants))
+      .then(data => res.status(200).json(data))
       .catch(err => res.status(500).json(err));
   },
 
   get: (req, res) => {
-    ParticipantModel
-      .findOne({ _id: req.body.id })
-      .select('-_id')
-      .then(participant => res.status(200).json(participant))
+    findOne({ _id: req.body.id }, '-_id')
+      .then(data => res.status(200).json(data))
       .catch(err => res.status(500).json(err));
   },
 
@@ -59,8 +63,7 @@ module.exports = {
 
     const { cpf, year, days } = data;
 
-    ParticipantModel
-      .findOne({ cpf, year })
+    findOne({ cpf, year })
       .then((exist) => {
         async.each(days, (day, cb) => {
           if (exist && exist.days.filter(d => Number(d.name) === Number(day))[0]) return cb();
