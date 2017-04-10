@@ -12,6 +12,9 @@ const env = require('./config/env');
 
 if (env.node_env === 'production') require('newrelic');
 
+// config bluebird
+require('./config/bluebird');
+
 // config mongoose
 const mongoose = require('./config/mongoose');
 
