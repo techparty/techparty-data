@@ -33,7 +33,7 @@ const update = (data, cb) => {
 const findOne = (criteria = {}, select = '') => {
   return ParticipantModel
     .findOne(criteria)
-    .select(select)
+    .select(select);
 };
 
 module.exports = {
