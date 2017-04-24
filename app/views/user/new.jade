@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3 New user
+
+	section
+		form(role='form' method='post' action='/user')
+			.form-group
+				label(for="name") Name
+				input.form-control(type="text" id="name" name="name" required)
+
+			.form-group
+				label(for="email") Email
+				input.form-control(type="email" id="username" name="username" required)
+
+			.form-group
+				label(for="password") Password
+				input.form-control(type="password" id="password" name="password" required)
+
+			.form-group
+				label(for="isAdmin") Admin
+				select.form-control(id="isAdmin" name="isAdmin")
+					option(value="false") No
+					option(value="true") Yes
+
+			button.btn.btn-primary(type="submit") Create

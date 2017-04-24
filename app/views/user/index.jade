@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3
+			|Users
+			|&nbsp
+			small
+				a(href="/user/new") New
+
+
+	section
+		table.table.table-striped
+			thead
+				tr
+					th Name
+					th Email
+					th isAdmin
+					th Actions
+			tbody
+				each user in users
+					tr
+						td #{user.name}
+						td #{user.username}
+						td
+							span(class="label label-#{ user.isAdmin ? 'primary' : 'default' }") #{user.isAdmin}
+						td
+							- var uri = '/user/' + user.id
+							form(method='POST' action="#{uri}?_method=DELETE" onsubmit="return main.confirmDelete();")
+								a(href="#{uri}")
+									span.glyphicon.glyphicon-edit(aria-hidden="true")
+								button.btn-link(type="submit")
+									span.glyphicon.glyphicon-trash(aria-hidden="true")

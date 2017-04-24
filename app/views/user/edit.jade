@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+
+	header.page-header
+		h3 Edit user - #{ user.username }
+
+	section
+		form(role='form' method='POST' action="/user/#{ user.id }?_method=PUT")
+
+			.form-group
+				label(for="name") Name
+				input.form-control(type="text" id="name" name="name" required value="#{ user.name }")
+
+			.form-group
+				label(for="email") Email
+				input.form-control(type="email" id="username" name="username" required value="#{ user.username }")
+
+			.form-group
+				label(for="password") Password
+				input.form-control(type="password" id="password" name="password")
+
+			.form-group
+				label(for="isAdmin") Admin
+				select.form-control(id="isAdmin" name="isAdmin")
+					option(value="false" selected=!user.isAdmin) No
+					option(value="true" selected=user.isAdmin) Yes
+
+			button.btn.btn-primary(type="submit") Update

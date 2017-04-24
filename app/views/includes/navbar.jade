@@ -17,6 +17,9 @@ nav.navbar.navbar-default
 						a(href='/participant') Participant
 					li
 						a(href='/configuration') Configuration
+					if user.isAdmin
+						li
+							a(href='/user') User
 			ul.nav.navbar-nav.navbar-right
 				if isLogged
 					li

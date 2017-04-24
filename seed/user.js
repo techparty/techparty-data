@@ -9,6 +9,7 @@ users.push({
   name: 'TechParty',
   username: 'myemail@email.com',
   password: 'pass',
+  isAdmin: false,
 });
 
 UserModel

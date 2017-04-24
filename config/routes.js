@@ -18,6 +18,7 @@ module.exports = (app) => {
   app.use('/speaker', require('../app/routes/speaker'));
   app.use('/participant', require('../app/routes/participant'));
   app.use('/configuration', require('../app/routes/configuration'));
+  app.use('/user', require('../app/routes/user'));
 
   // routes api v1
   app.use('/api/v1/healthcheck', require('../app/routes/api/v1/healthcheck'));
@@ -28,7 +29,6 @@ module.exports = (app) => {
   app.use('/api/v2/participant', require('../app/routes/api/v2/participant'));
   app.use('/api/v2/speaker', require('../app/routes/api/v2/speaker'));
 
-
   // catch 404 and forward to error handler
   app.use((error, req, res, next) => {
     if (error) return next(error);
@@ -37,13 +37,16 @@ module.exports = (app) => {
     next(err);
   });
 
-
   // error handlers
-  app.use((err, req, res) => {
-    res.status(err.status || 500);
-    res.json({
+  app.use((err, req, res, next) => {
+    if (!next) return;
+    res.status(err.status || res.statusCode || 500);
+    err.status = res.statusCode;
+    const body = {
       message: err.message,
-      error: app.get('env') === 'development' ? err : {},
-    });
+      error: err,
+    };
+    if (req.xhr) return res.json(body);
+    res.render('error', body);
   });
 };
