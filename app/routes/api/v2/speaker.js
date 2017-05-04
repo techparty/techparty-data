@@ -11,6 +11,7 @@ router
   * @apiVersion 2.0.0
   *
   * @apiParam {String} email
+  * @apiParam {Number} year
   *
   * @apiSuccess {Speaker} speaker
   */

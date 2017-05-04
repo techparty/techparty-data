@@ -17,15 +17,17 @@ block content
 					th Name
 					th Email
 					th Talk
+					th Year
 					th Date
 					th Actions
 			tbody
 				each speaker in speakers
 					tr
-						td #{speaker.name}
-						td #{speaker.email}
-						td #{speaker.talk}
-						td #{moment(speaker.date).format('YYYY/MM/DD')}
+						td #{ speaker.name }
+						td #{ speaker.email }
+						td #{ speaker.talk }
+						td #{ speaker.year }
+						td #{ moment(speaker.date).format('YYYY/MM/DD') }
 						td
 							- var uri = '/speaker/' + speaker.id
 							form(method='POST' action="#{uri}?_method=DELETE" onsubmit="return main.confirmDelete();")

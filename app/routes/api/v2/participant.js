@@ -12,6 +12,7 @@ router
   *
   * @apiParam {String} name
   * @apiParam {String} cpf
+  * @apiParam {Number} year
   *
   * @apiSuccess {Participant} participant
   */

@@ -10,7 +10,6 @@ module.exports = {
     Model
       .find({})
       .sort('-year date')
-      .select('name email talk date')
       .then(speakers => res.render('speaker/index', { speakers }))
       .catch(err => ErrorService.response(next, err));
   },
