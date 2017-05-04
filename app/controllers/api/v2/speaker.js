@@ -3,7 +3,7 @@ const SpeakerModel = require('../../../models/speaker');
 module.exports = {
 
   get: (req, res) => {
-  	const { email, year } = req.body;
+    const { email, year } = req.body;
     SpeakerModel
       .findOne({ email, year })
       .select('-_id')

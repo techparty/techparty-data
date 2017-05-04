@@ -3,7 +3,7 @@ const ParticipantModel = require('../../../models/participant');
 module.exports = {
 
   get: (req, res) => {
-  	const { email, cpf, year } = req.body;
+    const { email, cpf, year } = req.body;
     ParticipantModel
       .findOne({ email, cpf, year })
       .select('-_id')

@@ -50,7 +50,6 @@ module.exports = {
         if (body.name) data.name = body.name;
         if (body.username) data.username = body.username;
         if (body.password) data.password = body.password;
-        console.log(body);
         if (body.isAdmin) data.isAdmin = body.isAdmin;
         data
           .save()
